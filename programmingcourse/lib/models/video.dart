@@ -13,23 +13,23 @@ class Video {
 // Sample video list
 final List<Video> videos = [
   Video(
-    title: "Flutter Login App",
-    url: "https://youtu.be/yafX6haLWMA?si=ieSshFNh1m-zmoX8",
+    title: "Flutter Crash Course #1 - What is Flutter?",
+    url: "https://youtu.be/j_rCDc_X-k8?si=cWYfp4DyOykwl0JQ",
     duration: "20 min 50 sec",
   ),
   Video(
-    title: "Flutter Folder Structure",
-    url: "https://youtu.be/iWsfGf_UEXE?si=sHf92PdDQkKPq0BK",
+    title: "FLutter Crash Course #2 - Installing on Windows",
+    url: "https://youtu.be/DvZuJeTHWaw?si=6c8vS1xFrWQdawam",
     duration: "15 min 30 sec",
   ),
   Video(
-    title: "Flutter Theme",
-    url: "https://youtu.be/Q9FosAdX2U4?si=RmLY5OhiVCBDoS9L",
+    title: "Flutter Crash Course #3 - Installing on Mac",
+    url: "https://youtu.be/BwKfjzxTGXI?si=u1KCuKafC25iXDVY",
     duration: "18 min 20 sec",
   ),
   Video(
-    title: "Native Splash Screen in Flutter",
-    url: "https://youtu.be/4Aawfl6yOg4?si=qZgue0K9TfHikrxx",
+    title: "Flutter Crash Course #4 - Making a New Flutter Project",
+    url: "https://youtu.be/adNHZVBd284?si=twikSHm2KCj5x-yj",
     duration: "22 min 10 sec",
   ),
 ];
