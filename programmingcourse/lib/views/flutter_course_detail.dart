@@ -5,6 +5,8 @@ import '../models/video.dart';
 import '../providers/video_provider.dart';
 
 class FlutterCourseDetail extends StatelessWidget {
+  const FlutterCourseDetail({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -163,6 +165,8 @@ class FlutterCourseDetail extends StatelessWidget {
 }
 
 class ThankYouScreen extends StatelessWidget {
+  const ThankYouScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
