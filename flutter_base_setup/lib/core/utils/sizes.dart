@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+// 
+
 class AppSpacing {
   // Global Padding Sizes
   static const EdgeInsets paddingXS = EdgeInsets.all(4.0); // Extra Small
@@ -108,3 +110,19 @@ class AppTextStyles {
   static const TextStyle caption = TextStyle(fontSize: 12.0, fontWeight: FontWeight.w400);
   static const TextStyle label = TextStyle(fontSize: 10.0, fontWeight: FontWeight.w400);
 }
+
+
+/*
+instead of this:
+
+Text("Hello", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+SizedBox(height: 12),
+Padding(padding: EdgeInsets.all(16)),
+
+you can use this:
+
+Text("Hello", style: AppTextStyles.headingM),
+AppSpacing.verticalSpaceM,
+Padding(padding: AppSpacing.paddingL),
+
+ */

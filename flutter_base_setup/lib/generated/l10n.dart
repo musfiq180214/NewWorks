@@ -58,6 +58,26 @@ class S {
   String get hotel {
     return Intl.message('Hotel', name: 'hotel', desc: '', args: []);
   }
+
+  /// `Salam`
+  String get greeting {
+    return Intl.message('Salam', name: 'greeting', desc: '', args: []);
+  }
+
+  /// `Jahangir Alam`
+  String get userName {
+    return Intl.message('Jahangir Alam', name: 'userName', desc: '', args: []);
+  }
+
+  /// `SOS`
+  String get sos {
+    return Intl.message('SOS', name: 'sos', desc: '', args: []);
+  }
+
+  /// `7`
+  String get notifications {
+    return Intl.message('7', name: 'notifications', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -9,9 +9,11 @@ abstract class RouteNames {
 }
 
 abstract class AppNavigator {
+  
   AppNavigator._();
 
   static final navigatorKey = GlobalKey<NavigatorState>();
+  // allows to navigate anywhere in the app without passing BuildContext
   static final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
   static Route<dynamic> generateRoutes(RouteSettings settings) {

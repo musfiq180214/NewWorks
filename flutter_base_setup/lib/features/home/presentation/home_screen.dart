@@ -13,6 +13,16 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+
+    // Flutter's each class has a build method in it
+    // that returns a widget.
+    // The BuildContext represents the location of this widget in the widget tree.
+    // The widget tree is a hierarchical structure that represents the UI of the app.
+    // The build method is called whenever the widget needs to be rebuilt,
+    // such as when the state changes or when the widget is first created.
+
+
+
     return Scaffold(
       appBar: HomeAppBar(),
       body: CustomScrollView(
@@ -24,7 +34,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 color: Colors.white,
                 padding: AppSpacing.paddingL,
                 child: Column(
-                  children: [],
+                  children: [
+                    
+                  ],
                 ),
               ),
             ]),

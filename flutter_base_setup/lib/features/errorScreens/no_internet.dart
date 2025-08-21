@@ -12,10 +12,16 @@ class NoInternetScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final connectivity = ref.watch(connectivityStatusProvider);
 
+    // according to provider logic, 
+    // this widget continously listens to the connectivity status
+    // and rebuilds the widget when connectivity changes.
+    // so, we can use this to show the no internet screen
+    // and also to automatically pop back when internet returns.
+
     // Automatically pop back when internet returns
-    if (connectivity != ConnectivityResult.none) {
-      Future.microtask(() {
-        if (Navigator.canPop(AppNavigator.navigatorKey.currentContext!)) {
+    if (connectivity != ConnectivityResult.none) { // if internet is available
+      Future.microtask(() { // use microtask to ensure this runs after the current synchronpous code finishes
+        if (Navigator.canPop(AppNavigator.navigatorKey.currentContext!)) { // check and ensure we have a previous screen and don't get back to a blank screen
           Navigator.pop(AppNavigator
               .navigatorKey.currentContext!); // return to previous screen
         } else {

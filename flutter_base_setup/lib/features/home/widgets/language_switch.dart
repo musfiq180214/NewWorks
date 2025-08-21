@@ -25,7 +25,9 @@ class LanguageSwitcher extends ConsumerWidget {
           ],
           onChanged: (String? newLang) {
             if (newLang != null) {
+              
               ref.read(languageProvider.notifier).changeLocale(newLang);
+
             }
           },
         ),

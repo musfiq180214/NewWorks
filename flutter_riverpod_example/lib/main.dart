@@ -1,125 +1,67 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-// -----------------------
-// Video State
-// -----------------------
-class VideoState {
-  final bool isPlaying;
+// 1️⃣ Create Notifier class
+class UsernameNotifier extends StateNotifier<String> {
+  UsernameNotifier() : super("Guest"); // initial value = "Guest"
 
-  VideoState({this.isPlaying = true});
-
-  VideoState copyWith({bool? isPlaying}) =>
-      VideoState(isPlaying: isPlaying ?? this.isPlaying);
-}
-
-// -----------------------
-// Video Controller
-// -----------------------
-class VideoController extends StateNotifier<VideoState> {
-  late YoutubePlayerController ytController;
-
-  VideoController() : super(VideoState()) {
-    ytController = YoutubePlayerController(
-      initialVideoId: '2t6Bt04EyLw', // Video ID
-      flags: const YoutubePlayerFlags(
-        autoPlay: true,
-        mute: false,
-        controlsVisibleAtStart: true,
-      ),
-    );
-  }
-
-  void playPause() {
-    if (ytController.value.isPlaying) {
-      ytController.pause();
-      state = state.copyWith(isPlaying: false);
-    } else {
-      ytController.play();
-      state = state.copyWith(isPlaying: true);
-    }
-  }
-
-  @override
-  void dispose() {
-    ytController.dispose();
-    super.dispose();
+  void changeName(String newName) {
+    state = newName; // update state with new string
   }
 }
 
-// -----------------------
-// Provider
-// -----------------------
-final videoProvider =
-    StateNotifierProvider<VideoController, VideoState>((ref) {
-  return VideoController();
-});
+// 2️⃣ Create Provider for this Notifier
+final usernameProvider = StateNotifierProvider<UsernameNotifier, String>(
+  (ref) => UsernameNotifier(),
+);
 
-// -----------------------
-// Main App
-// -----------------------
+// 3️⃣ Main entry point
 void main() {
-  runApp(ProviderScope(child: MyApp()));
+  runApp(
+    ProviderScope( // 👈 Required for Riverpod
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Riverpod YouTube Player',
-      debugShowCheckedModeBanner: false,
+      title: 'Riverpod Demo',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: VideoPage(),
+      home: UsernameScreen(),
     );
   }
 }
 
-// -----------------------
-// Video Page
-// -----------------------
-class VideoPage extends ConsumerWidget {
-  const VideoPage({super.key});
+// 4️⃣ Screen that uses the provider
+class UsernameScreen extends ConsumerWidget {
+  const UsernameScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final controller = ref.watch(videoProvider.notifier);
-    final state = ref.watch(videoProvider);
+    final username = ref.watch(usernameProvider); // read state
 
     return Scaffold(
-      appBar: AppBar(title: const Text("YouTube Video Player")),
+      appBar: AppBar(title: Text("Profile")),
       body: Center(
-        child: YoutubePlayerBuilder(
-          player: YoutubePlayer(
-            controller: controller.ytController,
-            showVideoProgressIndicator: true,
-            progressIndicatorColor: Colors.red,
-            onReady: () {
-              controller.ytController.play();
-            },
-          ),
-          builder: (context, player) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: 400,
-                  child: player,
-                ),
-                const SizedBox(height: 30),
-                IconButton(
-                  icon: Icon(
-                    state.isPlaying ? Icons.pause_circle : Icons.play_circle,
-                    size: 60,
-                    color: Colors.blue,
-                  ),
-                  onPressed: () => controller.playPause(),
-                ),
-              ],
-            );
-          },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "Hello, $username!",
+              style: TextStyle(fontSize: 24),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                // Change username
+                ref.read(usernameProvider.notifier).changeName("John Doe");
+              },
+              child: Text("Set Username to John Doe"),
+            ),
+          ],
         ),
       ),
     );

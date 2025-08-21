@@ -1,4 +1,7 @@
 {
   "@@locale": "en",
-  "hotel": "Hotel"
+  "greeting": "Salam",
+  "userName": "Jahangir Alam",
+  "sos": "SOS",
+  "notifications": "7"
 }

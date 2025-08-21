@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:base_setup/features/profile/presentation/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,8 +17,13 @@ class LandingScreen extends ConsumerStatefulWidget {
 class _LandingScreenState extends ConsumerState<LandingScreen> {
   final List<Widget> _screens = [
     HomeScreen(),
-    Container(),
+    ProfileScreen(),
   ];
+  // we have imported HomeScreen as 1st screen and gave a Container as 2nd screen
+  // simple list of screens so that we can 
+  // assign this Landing Screen's Scaffold's body 
+
+
   @override
   void initState() {
     super.initState();
@@ -32,8 +38,13 @@ class _LandingScreenState extends ConsumerState<LandingScreen> {
   @override
   Widget build(BuildContext context) {
     var index = ref.watch(bottomNavIndexProvider);
+    // this widget is now a listener to te bottomNavIndexProvider
     return Scaffold(
       body: _screens[index],
+      // this is where we assign the body of the Scaffold
+      // we are selecting the screen from the _screens list
+      // based on the current index
+      // the index is being watched from the bottomNavIndexProvider
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: index,
         selectedItemColor: Colors.blue,

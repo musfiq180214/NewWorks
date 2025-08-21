@@ -10,8 +10,17 @@ import 'generated/l10n.dart';
 
 void main() {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+
+  // ensures flutter bindings are ready before i run the app
+
+
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
+  // keeps the native splash screen visible until i removew it (usually after async)
+
   runApp(const ProviderScope(child: MyApp()));
+
+  // ProviderScope is the root of the app, allowing us to use Riverpod for state management
 }
 
 class MyApp extends ConsumerWidget {
@@ -20,12 +29,20 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(themeModeProvider);
+    // watches the theme mode state provider to get the current theme mode
+    // whenever themeMode changes, the app will rebuild with the new theme
+
     final locale = ref.watch(languageProvider);
+    // watches the language provider to get the current locale
+    // whenever the locale changes, the app will rebuild with the new locale
+
     return MaterialApp(
+      
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       initialRoute: AppRouter.root,
       themeMode: themeMode,
+      // this is where my thememode is set based on the provider state
       onGenerateRoute: AppRouter.generateRoute,
       supportedLocales: S.delegate.supportedLocales, // ✅ Automatic localization
       localizationsDelegates: [

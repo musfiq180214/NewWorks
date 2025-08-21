@@ -1,4 +1,7 @@
 {
   "@@locale": "bn",
-  "hotel": "হোটেল"
+  "greeting": "সালাম",
+  "userName": "জাহাঙ্গীর আলম",
+  "sos": "এসওএস",
+  "notifications": "৭"
 }
