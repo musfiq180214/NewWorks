@@ -1,0 +1,11 @@
+{
+  "@@locale": "bn",
+  "previous": "আগে",
+  "next": "পরবর্তী",
+  "apartmentTitle": "আপার্টমেন্ট শিরোনাম",
+  "goToApartments": "অ্যাপার্টমেন্টে যান",
+  "login": "লগইন",
+  "email": "ইমেইল",
+  "password": "পাসওয়ার্ড",
+  "cartTitle": "কার্ট"
+}

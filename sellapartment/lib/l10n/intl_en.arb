@@ -1,0 +1,11 @@
+{
+  "@@locale": "en",
+  "previous": "Previous",
+  "next": "Next",
+  "apartmentTitle": "Apartment Title",
+  "goToApartments": "Go to Apartments",
+  "login": "Login",
+  "email": "Email",
+  "password": "Password",
+  "cartTitle": "Cart"
+}
