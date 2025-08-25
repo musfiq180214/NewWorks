@@ -1,4 +1,15 @@
 {
-    "java.configuration.updateBuildConfiguration": "interactive",
-    "cmake.sourceDirectory": "/home/musfiq/Desktop/NewWorks/basicproject/linux"
+    // "java.configuration.updateBuildConfiguration": "interactive",
+    // "cmake.sourceDirectory": "/home/musfiq/Desktop/NewWorks/basicproject/linux"
+    "files.exclude": {
+        "**/.git": true,
+        "**/.dart_tool": true,
+        "**/.idea": true,
+        "**/build": true,
+        "**/.vscode": true,
+    },
+    "search.exclude": {
+        "**/build": true,
+        "**/.dart_tool": true,
+    } 
 }

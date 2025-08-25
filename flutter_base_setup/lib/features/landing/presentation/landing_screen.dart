@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:base_setup/features/profile/presentation/profile_screen.dart';
 import 'package:flutter/material.dart';
