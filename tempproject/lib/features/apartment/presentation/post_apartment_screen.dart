@@ -30,6 +30,15 @@ class _PostApartmentScreenState extends ConsumerState<PostApartmentScreen> {
     super.dispose();
   }
 
+  Future<void> _pasteImageUrl() async {
+    final data = await Clipboard.getData('text/plain');
+    if (data != null && data.text != null) {
+      setState(() {
+        _imageCtrl.text = data.text!.trim();
+      });
+    }
+  }
+
   void _submit() {
     if (!_formKey.currentState!.validate()) return;
 
@@ -70,11 +79,22 @@ class _PostApartmentScreenState extends ConsumerState<PostApartmentScreen> {
                     v == null || v.isEmpty ? "Enter title" : null,
               ),
               const SizedBox(height: 8),
-              TextFormField(
-                controller: _imageCtrl,
-                decoration: const InputDecoration(labelText: "Image URL"),
-                validator: (v) =>
-                    v == null || v.isEmpty ? "Enter image url" : null,
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      controller: _imageCtrl,
+                      decoration: const InputDecoration(labelText: "Image URL"),
+                      validator: (v) =>
+                          v == null || v.isEmpty ? "Enter image url" : null,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  ElevatedButton(
+                    onPressed: _pasteImageUrl,
+                    child: const Text("Paste"),
+                  ),
+                ],
               ),
               const SizedBox(height: 8),
               TextFormField(
