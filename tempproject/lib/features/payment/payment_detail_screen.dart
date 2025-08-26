@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tempproject/core/provider/user_profile_provider.dart';
 import 'package:tempproject/features/cart/provider/cart_provider.dart';
 
 class PaymentDetailScreen extends ConsumerWidget {

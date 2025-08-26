@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tempproject/core/provider/user_profile_provider.dart';
 import 'package:tempproject/features/apartment/domain/apartment_model.dart';
 import 'package:tempproject/features/cart/provider/cart_provider.dart';
-import 'package:tempproject/core/provider/user_profile_provider.dart';
 import 'package:tempproject/core/provider/locale_provider.dart';
 import 'package:tempproject/core/provider/is_logged_in_provider.dart';
 import 'package:tempproject/core/theme/theme_provider.dart';

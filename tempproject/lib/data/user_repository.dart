@@ -46,6 +46,29 @@ class UserRepository {
       age: 40,
     ),
   ];
+  bool updateUser({
+    required String email,
+    String? name,
+    String? contact,
+    int? age,
+  }) {
+    final index = _users.indexWhere(
+    (u) => u.email.toLowerCase().trim() == email.toLowerCase().trim(),
+    );
+
+    if (index == -1) return false;
+
+    final existing = _users[index];
+    _users[index] = User(
+      email: existing.email,
+      password: existing.password,
+      name: name ?? existing.name,
+      contact: contact ?? existing.contact,
+      age: age ?? existing.age,
+    );
+    return true;
+  }
+
 
   /// Authenticate user
   bool authenticate(String email, String password) {

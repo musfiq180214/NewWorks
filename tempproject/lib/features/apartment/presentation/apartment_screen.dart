@@ -1,12 +1,12 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tempproject/core/provider/user_profile_provider.dart';
 import 'package:tempproject/features/apartment/provider/apartment_provider.dart';
 import 'package:tempproject/features/cart/provider/cart_provider.dart';
 import '../../../core/theme/theme_provider.dart';
 import '../../../core/provider/locale_provider.dart';
 import '../../../core/provider/is_logged_in_provider.dart';
-import '../../../core/provider/user_profile_provider.dart';
 import '../../../core/routing/app_router.dart';
 import '../../../generated/l10n.dart';
 
