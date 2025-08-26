@@ -1,7 +1,10 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tempproject/core/provider/locale_provider.dart';
+import 'package:tempproject/core/routing/app_router.dart';
 import 'package:tempproject/core/theme/theme_provider.dart';
+import 'package:tempproject/core/provider/user_profile_provider.dart';
 import 'package:tempproject/features/cart/provider/cart_provider.dart';
 import 'package:tempproject/generated/l10n.dart';
 
@@ -10,36 +13,33 @@ class CartScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final cart = ref.watch(cartProvider);
+    final user = ref.watch(userProfileProvider);
+
+    if (user == null) {
+      return const Scaffold(
+        body: Center(child: Text("No user logged in")),
+      );
+    }
+
+    final cart = ref.watch(cartProvider(user.email));
 
     return Scaffold(
       appBar: AppBar(
         title: Text(S.of(context).cartTitle),
-  // title: Text('Cart'), // or S.of(context).cart if you want localization
-  centerTitle: true,
-  actions: [
-    // Language toggle button
-    IconButton(
-      icon: const Icon(Icons.language),
-      tooltip: "Toggle Language",
-      onPressed: () => ref.read(localeProvider.notifier).toggleLocale(),
-    ),
-    // Theme toggle button
-    IconButton(
-      icon: const Icon(Icons.brightness_6),
-      tooltip: "Toggle Theme",
-      onPressed: () => ref.read(themeProvider.notifier).toggleTheme(),
-    ),
-  ],
-),
-
+        centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.language),
+            onPressed: () => ref.read(localeProvider.notifier).toggleLocale(),
+          ),
+          IconButton(
+            icon: const Icon(Icons.brightness_6),
+            onPressed: () => ref.read(themeProvider.notifier).toggleTheme(),
+          ),
+        ],
+      ),
       body: cart.isEmpty
-          ? const Center(
-              child: Text(
-                "Your cart is empty",
-                style: TextStyle(fontSize: 16),
-              ),
-            )
+          ? const Center(child: Text("Your cart is empty"))
           : ListView.builder(
               itemCount: cart.length,
               itemBuilder: (context, index) {
@@ -47,22 +47,13 @@ class CartScreen extends ConsumerWidget {
                 return Card(
                   margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   child: ListTile(
-                    leading: ClipRRect(
-                      borderRadius: BorderRadius.circular(6),
-                      child: Image.network(
-                        apt.image,
-                        width: 64,
-                        height: 64,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
+                    leading: _buildApartmentImage(apt.image, width: 64, height: 64),
                     title: Text(apt.title),
                     subtitle: Text("Price: \$${apt.price.toStringAsFixed(2)}"),
                     trailing: IconButton(
                       icon: const Icon(Icons.remove_circle_outline),
-                      tooltip: "Remove",
                       onPressed: () {
-                        ref.read(cartProvider.notifier).remove(apt);
+                        ref.read(cartProvider(user.email).notifier).remove(apt);
                       },
                     ),
                   ),
@@ -70,22 +61,51 @@ class CartScreen extends ConsumerWidget {
               },
             ),
       bottomNavigationBar: cart.isEmpty
-          ? null
-          : SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    // Placeholder for checkout action
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Checkout not implemented')),
-                    );
-                  },
-                  icon: const Icon(Icons.payment),
-                  label: Text('Checkout (${cart.length})'),
-                ),
-              ),
-            ),
+    ? null
+    : SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: ElevatedButton.icon(
+            onPressed: () {
+              Navigator.pushNamed(context, AppRouter.checkout);
+            },
+            icon: const Icon(Icons.payment),
+            label: Text('Checkout (${cart.length})'),
+          ),
+        ),
+      ),
+    );
+  }
+
+  /// Helper to display network or local file image
+  Widget _buildApartmentImage(String path, {double width = 64, double height = 64}) {
+    if (path.startsWith("http")) {
+      return Image.network(
+        path,
+        width: width,
+        height: height,
+        fit: BoxFit.cover,
+        errorBuilder: (_, __, ___) => _placeholderImage(width, height),
+      );
+    } else if (path.startsWith("file://")) {
+      return Image.file(
+        File(path.replaceFirst("file://", "")),
+        width: width,
+        height: height,
+        fit: BoxFit.cover,
+        errorBuilder: (_, __, ___) => _placeholderImage(width, height),
+      );
+    } else {
+      return _placeholderImage(width, height);
+    }
+  }
+
+  Widget _placeholderImage(double width, double height) {
+    return Container(
+      width: width,
+      height: height,
+      color: Colors.grey[300],
+      child: const Icon(Icons.image_not_supported, size: 24),
     );
   }
 }

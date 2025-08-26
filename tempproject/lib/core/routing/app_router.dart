@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tempproject/core/provider/is_logged_in_provider.dart';
+// import 'package:flutter_riverpod/flutter_riverpod.dart';
+// import 'package:tempproject/core/provider/is_logged_in_provider.dart';
 import 'package:tempproject/features/apartment/presentation/apartment_screen.dart';
 import 'package:tempproject/features/apartment/presentation/apartment_view_screen.dart';
 import 'package:tempproject/features/cart/presentation/cart_screen.dart';
+import 'package:tempproject/features/checkout/checkout_screen.dart';
 import 'package:tempproject/features/intro/intro_screen.dart';
 import 'package:tempproject/features/login/presentation/login_screen.dart';
+import 'package:tempproject/features/payment/payment_screen.dart';
 import 'package:tempproject/features/register/presentation/register_screen.dart';
 import 'package:tempproject/features/user_profile/user_profile_screen.dart';
 import '../../features/apartment/presentation/post_apartment_screen.dart';
@@ -21,6 +23,8 @@ class AppRouter {
   static const String cart = '/cart';
   static const String postApartment = '/post-apartment';
   static const String userProfile = '/user-profile';
+  static const String checkout = '/checkout';
+  static const String payment = '/payment';
 
   /// Generate route dynamically
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -47,6 +51,10 @@ class AppRouter {
         );
       case cart:
         return MaterialPageRoute(builder: (_) => const CartScreen());
+      case checkout:
+        return MaterialPageRoute(builder: (_) => const CheckoutScreen());
+      case payment:
+        return MaterialPageRoute(builder: (_) => const PaymentScreen());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

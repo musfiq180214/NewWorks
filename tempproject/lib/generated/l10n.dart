@@ -103,6 +103,11 @@ class S {
   String get cartTitle {
     return Intl.message('Cart', name: 'cartTitle', desc: '', args: []);
   }
+
+  /// `Checkout`
+  String get checkoutTitle {
+    return Intl.message('Checkout', name: 'checkoutTitle', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

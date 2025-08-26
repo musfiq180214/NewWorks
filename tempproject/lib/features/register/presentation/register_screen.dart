@@ -13,7 +13,7 @@ class RegisterScreen extends ConsumerStatefulWidget {
 }
 
 class _RegisterScreenState extends ConsumerState<RegisterScreen> {
-  final _formKey = GlobalKey<FormState>();
+  // final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _nameController = TextEditingController();
@@ -73,8 +73,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              theme.colorScheme.primary.withOpacity(0.15),
-              theme.colorScheme.primaryContainer.withOpacity(0.15),
+              theme.colorScheme.primary,
+              theme.colorScheme.primaryContainer,
               theme.colorScheme.surface,
             ],
             begin: Alignment.topCenter,
@@ -94,7 +94,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(24),
                 ),
-                shadowColor: Colors.black.withOpacity(0.35),
+                shadowColor: Colors.black,
                 child: Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 28),

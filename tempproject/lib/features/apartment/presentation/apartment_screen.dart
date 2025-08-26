@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tempproject/features/apartment/provider/apartment_sort_provider.dart';
@@ -5,6 +6,7 @@ import 'package:tempproject/features/cart/provider/cart_provider.dart';
 import '../../../core/theme/theme_provider.dart';
 import '../../../core/provider/locale_provider.dart';
 import '../../../core/provider/is_logged_in_provider.dart';
+import '../../../core/provider/user_profile_provider.dart';
 import '../../../core/routing/app_router.dart';
 import '../../../generated/l10n.dart';
 
@@ -15,7 +17,15 @@ class ApartmentScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final apartments = ref.watch(apartmentListProvider);
     final sortType = ref.watch(apartmentSortProvider);
-    final cart = ref.watch(cartProvider);
+    final user = ref.watch(userProfileProvider);
+
+    if (user == null) {
+      return const Scaffold(
+        body: Center(child: Text("No user logged in")),
+      );
+    }
+
+    final cart = ref.watch(cartProvider(user.email));
 
     // Sort apartments
     final sortedApartments = List.of(apartments);
@@ -77,26 +87,21 @@ class ApartmentScreen extends ConsumerWidget {
                 ),
             ],
           ),
-          // =======================
-          // Updated logout button
-          // =======================
           IconButton(
             icon: const Icon(Icons.logout),
             tooltip: "Logout",
             onPressed: () async {
               await ref.read(isLoggedInProvider.notifier).logout();
-              // Clear entire navigation stack and go to login
               AppRouter.pushReplacementAll(context, AppRouter.login);
             },
           ),
           IconButton(
-  icon: const Icon(Icons.person),
-  tooltip: "Profile",
-  onPressed: () {
-    Navigator.pushNamed(context, AppRouter.userProfile);
-  },
-),
-
+            icon: const Icon(Icons.person),
+            tooltip: "Profile",
+            onPressed: () {
+              Navigator.pushNamed(context, AppRouter.userProfile);
+            },
+          ),
         ],
       ),
       body: Column(
@@ -108,7 +113,7 @@ class ApartmentScreen extends ConsumerWidget {
             icon: const Icon(Icons.add),
             label: const Text("Post"),
           ),
-          
+
           // Sorting buttons
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -134,13 +139,14 @@ class ApartmentScreen extends ConsumerWidget {
             ),
           ),
           const Divider(),
+
           // Scrollable apartment list
           Expanded(
             child: ListView.builder(
               itemCount: sortedApartments.length,
               itemBuilder: (context, index) {
                 final apt = sortedApartments[index];
-                final inCart = cart.any((a) => a?.id == apt.id);
+                final inCart = cart.any((a) => a.id == apt.id);
 
                 return Card(
                   margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
@@ -148,9 +154,6 @@ class ApartmentScreen extends ConsumerWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  color: Colors.grey[50],
-                  shadowColor: Colors.black.withValues(alpha: 0.2),
-                  clipBehavior: Clip.antiAlias,
                   child: InkWell(
                     borderRadius: BorderRadius.circular(16),
                     onTap: () {
@@ -163,45 +166,8 @@ class ApartmentScreen extends ConsumerWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        // Apartment image
-                        ClipRRect(
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(16),
-                            topRight: Radius.circular(16),
-                          ),
-                          child: Image.network(
-                            apt.image,
-                            height: 200,
-                            width: double.infinity,
-                            fit: BoxFit.cover,
-                            loadingBuilder: (context, child, loadingProgress) {
-                              if (loadingProgress == null) return child;
-                              return SizedBox(
-                                height: 200,
-                                child: Center(
-                                  child: CircularProgressIndicator(
-                                    value: loadingProgress.expectedTotalBytes != null
-                                        ? loadingProgress.cumulativeBytesLoaded /
-                                            loadingProgress.expectedTotalBytes!
-                                        : null,
-                                  ),
-                                ),
-                              );
-                            },
-                            errorBuilder: (_, __, ___) => Container(
-                              height: 200,
-                              color: Colors.grey[300],
-                              child: const Icon(Icons.image_not_supported, size: 48),
-                            ),
-                          ),
-                        ),
-
-                        // Content
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.grey[50],
-                            borderRadius: BorderRadius.circular(12),
-                          ),
+                        _buildApartmentImage(apt.image),
+                        Padding(
                           padding: const EdgeInsets.all(14),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -211,7 +177,6 @@ class ApartmentScreen extends ConsumerWidget {
                                 style: const TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.black87,
                                 ),
                               ),
                               const SizedBox(height: 6),
@@ -219,44 +184,20 @@ class ApartmentScreen extends ConsumerWidget {
                                 apt.description,
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.black54,
-                                  height: 1.3,
-                                ),
                               ),
                               const SizedBox(height: 10),
-                              Text(
-                                "Price: \$${apt.price.toStringAsFixed(2)}",
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.green,
-                                ),
-                              ),
+                              Text("Price: \$${apt.price.toStringAsFixed(2)}"),
                               const SizedBox(height: 12),
                               Align(
                                 alignment: Alignment.centerRight,
                                 child: FilledButton.icon(
                                   onPressed: () {
-                                    ref.read(cartProvider.notifier).toggle(apt);
+                                    ref.read(cartProvider(user.email).notifier).toggle(apt);
                                   },
-                                  style: FilledButton.styleFrom(
-                                    backgroundColor: inCart ? Colors.red[400] : Colors.blue[600],
-                                    foregroundColor: Colors.white,
-                                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                    elevation: 2,
-                                  ),
-                                  icon: Icon(
-                                    inCart ? Icons.remove_shopping_cart : Icons.add_shopping_cart,
-                                  ),
-                                  label: Text(
-                                    inCart ? 'Remove from Cart' : 'Add to Cart',
-                                    style: const TextStyle(fontWeight: FontWeight.w600),
-                                  ),
+                                  icon: Icon(inCart
+                                      ? Icons.remove_shopping_cart
+                                      : Icons.add_shopping_cart),
+                                  label: Text(inCart ? 'Remove' : 'Add'),
                                 ),
                               ),
                             ],
@@ -271,6 +212,37 @@ class ApartmentScreen extends ConsumerWidget {
           ),
         ],
       ),
+    );
+  }
+
+  /// Helper method to display network or file image correctly
+  Widget _buildApartmentImage(String path) {
+    if (path.startsWith("http")) {
+      return Image.network(
+        path,
+        height: 200,
+        width: double.infinity,
+        fit: BoxFit.cover,
+        errorBuilder: (_, __, ___) => _placeholderImage(),
+      );
+    } else if (path.startsWith("file://")) {
+      return Image.file(
+        File(path.replaceFirst("file://", "")),
+        height: 200,
+        width: double.infinity,
+        fit: BoxFit.cover,
+        errorBuilder: (_, __, ___) => _placeholderImage(),
+      );
+    } else {
+      return _placeholderImage();
+    }
+  }
+
+  Widget _placeholderImage() {
+    return Container(
+      height: 200,
+      color: Colors.grey[300],
+      child: const Icon(Icons.image_not_supported, size: 48),
     );
   }
 }

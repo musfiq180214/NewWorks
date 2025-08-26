@@ -26,6 +26,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "আপার্টমেন্ট শিরোনাম",
     ),
     "cartTitle": MessageLookupByLibrary.simpleMessage("কার্ট"),
+    "checkoutTitle": MessageLookupByLibrary.simpleMessage("চেকআউট"),
     "email": MessageLookupByLibrary.simpleMessage("ইমেইল"),
     "goToApartments": MessageLookupByLibrary.simpleMessage(
       "অ্যাপার্টমেন্টে যান",

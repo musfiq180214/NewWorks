@@ -7,5 +7,6 @@
   "login": "লগইন",
   "email": "ইমেইল",
   "password": "পাসওয়ার্ড",
-  "cartTitle": "কার্ট"
+  "cartTitle": "কার্ট",
+  "checkoutTitle": "চেকআউট"
 }

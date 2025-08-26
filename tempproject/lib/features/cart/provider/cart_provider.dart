@@ -30,7 +30,7 @@ class CartNotifier extends StateNotifier<List<Apartment>> {
   }
 }
 
-final cartProvider =
-    StateNotifierProvider<CartNotifier, List<Apartment>>((ref) {
-  return CartNotifier();
-});
+/// Family provider -> unique cart for each user
+final cartProvider = StateNotifierProvider.family<CartNotifier, List<Apartment>, String>(
+  (ref, userEmail) => CartNotifier(),
+);
