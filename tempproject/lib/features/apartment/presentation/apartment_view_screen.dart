@@ -4,6 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tempproject/features/apartment/domain/apartment_model.dart';
 import 'package:tempproject/features/cart/provider/cart_provider.dart';
 import 'package:tempproject/core/provider/user_profile_provider.dart';
+import 'package:tempproject/core/provider/locale_provider.dart';
+import 'package:tempproject/core/provider/is_logged_in_provider.dart';
+import 'package:tempproject/core/theme/theme_provider.dart';
+import 'package:tempproject/core/routing/app_router.dart';
 
 class ApartmentViewScreen extends ConsumerWidget {
   const ApartmentViewScreen({super.key, required this.apartment});
@@ -26,7 +30,68 @@ class ApartmentViewScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(apartment.title),
+        // title: Text(apartment.title),
+        // centerTitle: true,
+        actions: [
+          // Language toggle
+          IconButton(
+            icon: const Icon(Icons.language),
+            tooltip: "Toggle Language",
+            onPressed: () => ref.read(localeProvider.notifier).toggleLocale(),
+          ),
+          // Theme toggle
+          IconButton(
+            icon: const Icon(Icons.brightness_6),
+            tooltip: "Toggle Theme",
+            onPressed: () => ref.read(themeProvider.notifier).toggleTheme(),
+          ),
+          // Cart with badge
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              IconButton(
+                icon: const Icon(Icons.shopping_cart),
+                tooltip: "Cart",
+                onPressed: () {
+                  Navigator.pushNamed(context, AppRouter.cart);
+                },
+              ),
+              if (cart.isNotEmpty)
+                Positioned(
+                  right: 8,
+                  top: 8,
+                  child: Container(
+                    padding: const EdgeInsets.all(4),
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.red,
+                    ),
+                    child: Text(
+                      '${cart.length}',
+                      style: const TextStyle(fontSize: 10, color: Colors.white),
+                    ),
+                  ),
+                ),
+            ],
+          ),
+          // Logout
+          IconButton(
+            icon: const Icon(Icons.logout),
+            tooltip: "Logout",
+            onPressed: () async {
+              await ref.read(isLoggedInProvider.notifier).logout();
+              AppRouter.pushReplacementAll(context, AppRouter.login);
+            },
+          ),
+          // Profile
+          IconButton(
+            icon: const Icon(Icons.person),
+            tooltip: "Profile",
+            onPressed: () {
+              Navigator.pushNamed(context, AppRouter.userProfile);
+            },
+          ),
+        ],
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
@@ -39,6 +104,11 @@ class ApartmentViewScreen extends ConsumerWidget {
           Text(
             apartment.title,
             style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            apartment.type,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.blue),
           ),
           const SizedBox(height: 8),
           Text(
@@ -63,7 +133,7 @@ class ApartmentViewScreen extends ConsumerWidget {
     );
   }
 
-  /// Helper method to show network or local file image
+  /// Helper method to display network or file image correctly
   Widget _buildApartmentImage(String path) {
     if (path.startsWith("http")) {
       return Image.network(

@@ -4,6 +4,7 @@ class Apartment {
   final String image;
   final String description;
   final double price;
+  final String type;
 
   Apartment({
     required this.id,
@@ -11,6 +12,7 @@ class Apartment {
     required this.image,
     required this.description,
     required this.price,
+    required this.type
   });
 
 }

@@ -46,34 +46,52 @@ class CartScreen extends ConsumerWidget {
                 final apt = cart[index];
                 return Card(
                   margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                  child: ListTile(
-                    leading: _buildApartmentImage(apt.image, width: 64, height: 64),
-                    title: Text(apt.title),
-                    subtitle: Text("Price: \$${apt.price.toStringAsFixed(2)}"),
-                    trailing: IconButton(
-                      icon: const Icon(Icons.remove_circle_outline),
-                      onPressed: () {
-                        ref.read(cartProvider(user.email).notifier).remove(apt);
-                      },
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(8),
+                    onTap: () {
+                      // Navigate to ApartmentView Screen
+                      Navigator.pushNamed(
+                        context,
+                        AppRouter.apartmentView,
+                        arguments: apt,
+                      );
+                    },
+                    child: ListTile(
+                      leading: _buildApartmentImage(apt.image, width: 64, height: 64),
+                      title: Text(apt.title),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Type: ${apt.type}"),
+                          const SizedBox(height: 4),
+                          Text("Price: \$${apt.price.toStringAsFixed(2)}"),
+                        ],
+                      ),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.remove_circle_outline),
+                        onPressed: () {
+                          ref.read(cartProvider(user.email).notifier).remove(apt);
+                        },
+                      ),
                     ),
                   ),
                 );
               },
             ),
       bottomNavigationBar: cart.isEmpty
-    ? null
-    : SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: ElevatedButton.icon(
-            onPressed: () {
-              Navigator.pushNamed(context, AppRouter.checkout);
-            },
-            icon: const Icon(Icons.payment),
-            label: Text('Checkout (${cart.length})'),
-          ),
-        ),
-      ),
+          ? null
+          : SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    Navigator.pushNamed(context, AppRouter.checkout);
+                  },
+                  icon: const Icon(Icons.payment),
+                  label: Text('Checkout (${cart.length})'),
+                ),
+              ),
+            ),
     );
   }
 

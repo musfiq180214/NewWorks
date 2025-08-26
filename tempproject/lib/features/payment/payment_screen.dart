@@ -44,8 +44,12 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
 
   String? nameValidator(String? v) => v == null || v.isEmpty ? "Required" : null;
 
-  String? cardValidator(String? v) =>
-      v == null || v.length < 16 ? "Invalid card" : null;
+  // Updated Card Validator: Must be exactly 16 digits
+  String? cardValidator(String? v) {
+    if (v == null || v.isEmpty) return "Required";
+    if (!RegExp(r'^\d{16}$').hasMatch(v)) return "Card number must be 16 digits";
+    return null;
+  }
 
   void _submit() {
     setState(() => _submitted = true);

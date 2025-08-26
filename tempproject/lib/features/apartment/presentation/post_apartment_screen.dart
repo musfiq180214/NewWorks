@@ -5,7 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../domain/apartment_model.dart';
-import '../provider/apartment_sort_provider.dart';
+import '../provider/apartment_provider.dart';
+import '../widgets/image_mode_selector.dart';
+import '../widgets/image_upload_picker.dart';
 
 class PostApartmentScreen extends ConsumerStatefulWidget {
   const PostApartmentScreen({super.key});
@@ -15,7 +17,7 @@ class PostApartmentScreen extends ConsumerStatefulWidget {
       _PostApartmentScreenState();
 }
 
-enum ImageInputMode { url, upload }
+enum ApartmentType { forSale, toRent }
 
 class _PostApartmentScreenState extends ConsumerState<PostApartmentScreen> {
   final _formKey = GlobalKey<FormState>();
@@ -23,6 +25,7 @@ class _PostApartmentScreenState extends ConsumerState<PostApartmentScreen> {
   final _imageCtrl = TextEditingController();
   final _descCtrl = TextEditingController();
   final _priceCtrl = TextEditingController();
+  ApartmentType _aptType = ApartmentType.forSale;
 
   bool _loading = false;
   ImageInputMode _mode = ImageInputMode.url;
@@ -75,9 +78,10 @@ class _PostApartmentScreenState extends ConsumerState<PostApartmentScreen> {
       title: _titleCtrl.text.trim(),
       image: _mode == ImageInputMode.url
           ? _imageCtrl.text.trim()
-          : "file://${_pickedImage!.path}", // ✅ store file path with prefix
+          : "file://${_pickedImage!.path}",
       description: _descCtrl.text.trim(),
       price: double.parse(_priceCtrl.text.trim()),
+      type: _aptType == ApartmentType.forSale ? "For Sale" : "To Rent",
     );
 
     ref.read(apartmentListProvider.notifier).addApartment(newApartment);
@@ -105,26 +109,10 @@ class _PostApartmentScreenState extends ConsumerState<PostApartmentScreen> {
                 ),
                 const SizedBox(height: 16),
 
-                // Mode selector
-                Row(
-                  children: [
-                    Expanded(
-                      child: RadioListTile<ImageInputMode>(
-                        title: const Text("Image URL"),
-                        value: ImageInputMode.url,
-                        groupValue: _mode,
-                        onChanged: (v) => setState(() => _mode = v!),
-                      ),
-                    ),
-                    Expanded(
-                      child: RadioListTile<ImageInputMode>(
-                        title: const Text("Upload"),
-                        value: ImageInputMode.upload,
-                        groupValue: _mode,
-                        onChanged: (v) => setState(() => _mode = v!),
-                      ),
-                    ),
-                  ],
+                // ✅ New widget
+                ImageModeSelector(
+                  mode: _mode,
+                  onChanged: (v) => setState(() => _mode = v!),
                 ),
 
                 if (_mode == ImageInputMode.url) ...[
@@ -151,23 +139,11 @@ class _PostApartmentScreenState extends ConsumerState<PostApartmentScreen> {
 
                 if (_mode == ImageInputMode.upload) ...[
                   const SizedBox(height: 8),
-                  ElevatedButton.icon(
-                    onPressed: _pickImage,
-                    icon: const Icon(Icons.photo_library),
-                    label: const Text("Choose from Gallery"),
+                  // ✅ New widget
+                  ImageUploadPicker(
+                    pickedImage: _pickedImage,
+                    onPickImage: _pickImage,
                   ),
-                  const SizedBox(height: 8),
-                  _pickedImage != null
-                      ? ClipRRect(
-                          borderRadius: BorderRadius.circular(12),
-                          child: Image.file(
-                            _pickedImage!,
-                            height: 180,
-                            width: double.infinity,
-                            fit: BoxFit.cover,
-                          ),
-                        )
-                      : const Text("No image selected"),
                 ],
 
                 const SizedBox(height: 16),
@@ -192,6 +168,29 @@ class _PostApartmentScreenState extends ConsumerState<PostApartmentScreen> {
                   },
                 ),
                 const SizedBox(height: 20),
+                Row(
+                  children: [
+                    Expanded(
+                      child: RadioListTile<ApartmentType>(
+                        title: const Text("For Sale"),
+                        value: ApartmentType.forSale,
+                        groupValue: _aptType,
+                        onChanged: (v) => setState(() => _aptType = v!),
+                      ),
+                    ),
+                    Expanded(
+                      child: RadioListTile<ApartmentType>(
+                        title: const Text("To Rent"),
+                        value: ApartmentType.toRent,
+                        groupValue: _aptType,
+                        onChanged: (v) => setState(() => _aptType = v!),
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 20),
+
                 ElevatedButton(
                   onPressed: _loading ? null : _submit,
                   child: Text(_loading ? "Posting..." : "Post"),

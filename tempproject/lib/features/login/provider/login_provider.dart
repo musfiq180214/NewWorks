@@ -22,8 +22,9 @@ class LoginNotifier extends StateNotifier<LoginState> {
       emailError = 'Email is required';
     // ignore: curly_braces_in_flow_control_structures
     } else if (!_emailRegex.hasMatch(email.trim())) emailError = 'Enter a valid email address';
-    if (password.isEmpty) passwordError = 'Password is required';
-    else if (password.length < 8) passwordError = 'Password must be at least 8 characters';
+    if (password.isEmpty) {
+      passwordError = 'Password is required';
+    } else if (password.length < 8) passwordError = 'Password must be at least 8 characters';
 
     if (emailError != null || passwordError != null) {
       state = state.copyWith(
