@@ -25,6 +25,7 @@ class AppRouter {
   static const String userProfile = '/user-profile';
   static const String checkout = '/checkout';
   static const String payment = '/payment';
+  static const String paymentSlip = '/payment_slip';
 
   /// Generate route dynamically
   static Route<dynamic> generateRoute(RouteSettings settings) {
