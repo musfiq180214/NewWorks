@@ -1,33 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:provider/provider.dart' as provider;
 import 'package:fulldioproject/core/routes/app_router.dart';
-import 'package:provider/provider.dart';
 import 'core/logger/app_logger.dart';
 import 'features/login/provider/login_provider.dart';
+import 'features/theme/theme_provider.dart'; // <-- new
 
 void main() {
   AppLogger.init(isProduction: false);
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
+  Widget build(BuildContext context, WidgetRef ref) {
+    final themeMode = ref.watch(themeNotifierProvider);
+
+    return provider.ChangeNotifierProvider(
       create: (_) => LoginProvider(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
+        theme: ThemeData.light(),
+        darkTheme: ThemeData.dark(),
+        themeMode: themeMode, // <-- controlled by Riverpod
         onGenerateRoute: AppRouter.generateRoute,
         initialRoute: '/',
       ),
     );
   }
 }
-
-/*
-loginProvider.login() requests for valid login with the endoint : (/users/$username/repos) //validation
-GithubRepoScreen.fetchRepos() to actually fetch and display the repos with the same endpoint //data fetching
-
-that's why we see 2 request and response in log 
-*/

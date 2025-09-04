@@ -1,18 +1,20 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart'; // <-- for theme toggle
 import 'package:fulldioproject/core/api_client.dart';
 import 'package:fulldioproject/core/constants/github_constants.dart';
 import 'package:fulldioproject/core/logger/app_logger.dart';
+import 'package:fulldioproject/features/theme/theme_toggle_button.dart'; // <-- import toggle
 
-class GithubUserScreen extends StatefulWidget {
+class GithubUserScreen extends ConsumerStatefulWidget {
   final String username;
   const GithubUserScreen({super.key, required this.username});
 
   @override
-  State<GithubUserScreen> createState() => _GithubUserScreenState();
+  ConsumerState<GithubUserScreen> createState() => _GithubUserScreenState();
 }
 
-class _GithubUserScreenState extends State<GithubUserScreen> {
+class _GithubUserScreenState extends ConsumerState<GithubUserScreen> {
   late final ApiClient _apiClient;
   final _logger = AppLogger.getLogger("GithubUserScreen");
 
@@ -87,7 +89,12 @@ class _GithubUserScreenState extends State<GithubUserScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("${widget.username}'s Profile")),
+      appBar: AppBar(
+        title: Text("${widget.username}'s Profile"),
+        actions: const [
+          ThemeToggleButton(), // <-- added theme toggle here
+        ],
+      ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : _error.isNotEmpty

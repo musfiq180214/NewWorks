@@ -6,7 +6,7 @@ import 'package:fulldioproject/core/constants/github_constants.dart';
 import 'package:fulldioproject/core/logger/app_logger.dart';
 import 'package:fulldioproject/core/routes/route_names.dart';
 import 'package:fulldioproject/features/no_internet/presentation/no_internet.dart';
-import 'package:fulldioproject/widgets/repo_list_tile.dart';
+import 'package:fulldioproject/features/theme/theme_toggle_button.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 
 class GithubRepoScreen extends StatefulWidget {
@@ -24,7 +24,7 @@ class _GithubRepoScreenState extends State<GithubRepoScreen> {
   bool _isLoading = true;
   List<dynamic> _repos = [];
   String _error = "";
-  bool _hasFetchedRepos = false; // Prevent duplicate requests
+  bool _hasFetchedRepos = false;
 
   late StreamSubscription<InternetStatus> _internetSubscription;
 
@@ -33,7 +33,6 @@ class _GithubRepoScreenState extends State<GithubRepoScreen> {
     super.initState();
     _apiClient = ApiClient(githubToken, AppLogger.getLogger("ApiClient"));
 
-    // Listen to internet changes
     _internetSubscription = InternetConnection().onStatusChange.listen((
       status,
     ) {
@@ -127,7 +126,7 @@ class _GithubRepoScreenState extends State<GithubRepoScreen> {
     Navigator.pushNamedAndRemoveUntil(
       context,
       RouteNames.login,
-      (route) => false, // remove all previous routes
+      (route) => false,
     );
   }
 
@@ -137,6 +136,17 @@ class _GithubRepoScreenState extends State<GithubRepoScreen> {
       appBar: AppBar(
         title: Text("${widget.username}'s Repos"),
         actions: [
+          const ThemeToggleButton(), // <-- added here
+          IconButton(
+            onPressed: () {
+              Navigator.pushNamed(
+                context,
+                '/publicRepos',
+                arguments: widget.username,
+              );
+            },
+            icon: const Icon(Icons.public),
+          ),
           IconButton(
             icon: const Icon(Icons.person),
             tooltip: "View Profile",
@@ -171,12 +181,66 @@ class _GithubRepoScreenState extends State<GithubRepoScreen> {
           : RefreshIndicator(
               onRefresh: fetchRepos,
               child: ListView.builder(
+                padding: const EdgeInsets.all(12),
                 itemCount: _repos.length,
                 itemBuilder: (context, index) {
                   final repo = _repos[index];
-                  return RepoListTile(
-                    name: repo['name'],
-                    url: repo['html_url'],
+                  final repoName = repo['name'] ?? 'Unnamed Repo';
+                  final description = repo['description'] ?? '';
+                  final language = repo['language'] ?? 'Unknown';
+
+                  return Card(
+                    elevation: 3,
+                    shadowColor: Colors.grey.withOpacity(0.5),
+                    margin: const EdgeInsets.symmetric(vertical: 6),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: ListTile(
+                      leading: const Icon(Icons.book, color: Colors.teal),
+                      title: Text(
+                        repoName,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          color: Colors.black87,
+                        ),
+                      ),
+                      subtitle: Text(
+                        description,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      trailing: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.teal.shade100,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          language,
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.teal,
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          RouteNames.repoExplorer,
+                          arguments: {
+                            'owner': widget.username,
+                            'repo': repoName,
+                            'path': '',
+                          },
+                        );
+                      },
+                    ),
                   );
                 },
               ),

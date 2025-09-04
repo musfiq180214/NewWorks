@@ -2,10 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:fulldioproject/features/login/provider/login_provider.dart';
 import 'package:provider/provider.dart';
 
-class LoginForm extends StatelessWidget {
-  final TextEditingController usernameController = TextEditingController();
+class LoginForm extends StatefulWidget {
+  const LoginForm({super.key});
 
-  LoginForm({super.key});
+  @override
+  State<LoginForm> createState() => _LoginFormState();
+}
+
+class _LoginFormState extends State<LoginForm> {
+  final TextEditingController usernameController = TextEditingController();
+  String? _usernameError;
 
   @override
   Widget build(BuildContext context) {
@@ -18,19 +24,35 @@ class LoginForm extends StatelessWidget {
         children: [
           TextField(
             controller: usernameController,
-            decoration: const InputDecoration(labelText: 'GitHub Username'),
+            decoration: InputDecoration(
+              labelText: 'GitHub Username',
+              errorText: _usernameError, // <-- Show local validation error
+            ),
           ),
           const SizedBox(height: 24),
           loginProvider.isLoading
               ? const CircularProgressIndicator()
               : ElevatedButton(
                   onPressed: () async {
-                    await loginProvider.login(usernameController.text.trim());
+                    final username = usernameController.text.trim();
+
+                    if (username.isEmpty) {
+                      setState(() {
+                        _usernameError = "Must enter a username";
+                      });
+                      return;
+                    } else {
+                      setState(() {
+                        _usernameError = null;
+                      });
+                    }
+
+                    await loginProvider.login(username);
                     if (loginProvider.isAuthenticated) {
                       Navigator.pushReplacementNamed(
                         context,
                         '/github',
-                        arguments: usernameController.text.trim(),
+                        arguments: username,
                       );
                     }
                   },

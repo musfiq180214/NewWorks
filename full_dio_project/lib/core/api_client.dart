@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
+import 'package:fulldioproject/core/constants/github_constants.dart';
 import 'package:fulldioproject/core/logger/app_logger.dart';
 
 class ApiClient {
@@ -68,5 +71,54 @@ class ApiClient {
   Future<Map<String, dynamic>> getUserInfo(String username) async {
     final res = await _dio.get("/users/$username");
     return res.data;
+  }
+
+  Future<List<dynamic>> getPublicRepos({
+    int since = 0,
+    int perPage = 20,
+  }) async {
+    final res = await _dio.get(
+      "/repositories",
+      queryParameters: {"since": since, "per_page": perPage},
+    );
+    return res.data;
+  }
+
+  Future<List<dynamic>> getRepoContents({
+    required String owner,
+    required String repo,
+    String path = '',
+  }) async {
+    final res = await _dio.get("/repos/$owner/$repo/contents/$path");
+    return res.data;
+  }
+
+  Future<String> getFileContent({
+    required String owner,
+    required String repo,
+    required String path,
+  }) async {
+    try {
+      final response = await _dio.get(
+        '/repos/$owner/$repo/contents/$path',
+        options: Options(
+          headers: {
+            "Authorization": "token $githubToken",
+            "Accept": "application/vnd.github.v3+json",
+          },
+        ),
+      );
+
+      final data = response.data;
+
+      if (data['encoding'] == 'base64') {
+        final contentEncoded = data['content'].replaceAll('\n', '');
+        return utf8.decode(base64.decode(contentEncoded));
+      } else {
+        return data['content'] ?? '';
+      }
+    } catch (e) {
+      rethrow; // let the UI handle the error
+    }
   }
 }

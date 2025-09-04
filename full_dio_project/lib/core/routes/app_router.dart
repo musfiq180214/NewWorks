@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:fulldioproject/core/routes/route_names.dart';
 import 'package:fulldioproject/features/github_repo_screen.dart';
 import 'package:fulldioproject/features/login/presentation/login_page.dart';
+import 'package:fulldioproject/features/public_repo/presentation/public_repo_screen.dart';
+import 'package:fulldioproject/features/repo_explorer/repo_explorer_screen.dart';
 import 'package:fulldioproject/features/user_Info/user_screen.dart';
 
 class AppRouter {
@@ -20,6 +22,19 @@ class AppRouter {
         final username = settings.arguments as String;
         return MaterialPageRoute(
           builder: (_) => GithubUserScreen(username: username),
+        );
+
+      case RouteNames.publicRepos: // <-- add this case
+        return MaterialPageRoute(builder: (_) => const PublicRepoScreen());
+
+      case RouteNames.repoExplorer:
+        final args = settings.arguments as Map<String, dynamic>;
+        final owner = args['owner'] as String;
+        final repo = args['repo'] as String;
+        final path = args['path'] as String? ?? '';
+        return MaterialPageRoute(
+          builder: (_) =>
+              RepoExplorerScreen(owner: owner, repo: repo, path: path),
         );
 
       default:
