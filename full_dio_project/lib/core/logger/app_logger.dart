@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
 
 class AppLogger {
-  // Internal Logger instance
   static final Logger _logger = Logger(
     printer: PrettyPrinter(
       methodCount: 0,
@@ -15,15 +14,14 @@ class AppLogger {
     ),
   );
 
-  // Optional tag for logger (like your old logger name)
   final String tag;
 
-  AppLogger._(this.tag);
+  /// Default constructor
+  AppLogger({this.tag = ''});
 
-  /// Factory to get a logger with a specific tag
-  static AppLogger getLogger(String tag) => AppLogger._(tag);
+  /// Factory for tagged logger
+  factory AppLogger.getLogger(String tag) => AppLogger(tag: tag);
 
-  // Internal log method
   void _log(
     void Function(dynamic) logFunction,
     dynamic message, {
@@ -44,28 +42,14 @@ class AppLogger {
     }
   }
 
-  // Info log
   void i(dynamic message) => _log(_logger.i, message);
-
-  // Debug log
   void d(dynamic message) => _log(_logger.d, message);
-
-  // Warning log
   void w(dynamic message) => _log(_logger.w, message);
-
-  // Error log
   void e(dynamic message, [dynamic error, StackTrace? stackTrace]) =>
       _log(_logger.e, message, error: error, stackTrace: stackTrace);
-
-  // Trace log
   void t(dynamic message) => _log(_logger.t, message);
 
-  /// Optional: global initialization
   static void init({bool isProduction = false}) {
-    if (isProduction) {
-      Logger.level = Level.warning;
-    } else {
-      Logger.level = Level.trace;
-    }
+    Logger.level = isProduction ? Level.warning : Level.trace;
   }
 }

@@ -121,4 +121,47 @@ class ApiClient {
       rethrow; // let the UI handle the error
     }
   }
+
+  // In your ApiClient class
+  Future<Map<String, dynamic>> getAuthenticatedUser() async {
+    final response = await _dio.get(
+      'https://api.github.com/user', // GitHub endpoint for authenticated user
+      options: Options(
+        headers: {
+          'Authorization': 'token $githubToken',
+          'Accept': 'application/vnd.github.v3+json',
+        },
+      ),
+    );
+
+    return response.data as Map<String, dynamic>;
+  }
+
+  // Get all starred repos of authenticated user
+  Future<List<dynamic>> getStarredRepos() async {
+    final res = await _dio.get("/user/starred");
+    return res.data;
+  }
+
+  // Star a repo
+  Future<void> starRepo({required String owner, required String repo}) async {
+    await _dio.put("/user/starred/$owner/$repo");
+  }
+
+  // Unstar a repo
+  Future<void> unstarRepo({required String owner, required String repo}) async {
+    await _dio.delete("/user/starred/$owner/$repo");
+  }
+
+  Future<List<dynamic>> searchRepos(
+    String query, {
+    int page = 1,
+    int perPage = 20,
+  }) async {
+    final response = await _dio.get(
+      '/search/repositories',
+      queryParameters: {'q': query, 'per_page': perPage, 'page': page},
+    );
+    return response.data['items'] as List<dynamic>;
+  }
 }

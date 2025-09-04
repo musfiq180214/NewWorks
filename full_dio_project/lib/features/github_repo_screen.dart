@@ -132,11 +132,17 @@ class _GithubRepoScreenState extends State<GithubRepoScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final titleColor = isDark ? Colors.white : Colors.black87;
+    final subtitleColor = isDark ? Colors.grey[300] : Colors.black54;
+    final chipBgColor = isDark ? Colors.teal.shade700 : Colors.teal.shade100;
+    final chipTextColor = isDark ? Colors.white : Colors.teal;
+
     return Scaffold(
       appBar: AppBar(
         title: Text("${widget.username}'s Repos"),
         actions: [
-          const ThemeToggleButton(), // <-- added here
+          const ThemeToggleButton(),
           IconButton(
             onPressed: () {
               Navigator.pushNamed(
@@ -156,6 +162,12 @@ class _GithubRepoScreenState extends State<GithubRepoScreen> {
                 '/githubUser',
                 arguments: widget.username,
               );
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.star, color: Colors.amber),
+            onPressed: () {
+              Navigator.pushNamed(context, RouteNames.starredRepos);
             },
           ),
           IconButton(
@@ -200,16 +212,17 @@ class _GithubRepoScreenState extends State<GithubRepoScreen> {
                       leading: const Icon(Icons.book, color: Colors.teal),
                       title: Text(
                         repoName,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
-                          color: Colors.black87,
+                          color: titleColor, // adapts to dark mode
                         ),
                       ),
                       subtitle: Text(
                         description,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
+                        style: TextStyle(color: subtitleColor),
                       ),
                       trailing: Container(
                         padding: const EdgeInsets.symmetric(
@@ -217,15 +230,15 @@ class _GithubRepoScreenState extends State<GithubRepoScreen> {
                           vertical: 4,
                         ),
                         decoration: BoxDecoration(
-                          color: Colors.teal.shade100,
+                          color: chipBgColor,
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
                           language,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
-                            color: Colors.teal,
+                            color: chipTextColor,
                           ),
                         ),
                       ),

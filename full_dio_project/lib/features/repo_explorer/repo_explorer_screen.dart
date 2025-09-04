@@ -1,11 +1,11 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart'; // <-- for theme
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fulldioproject/core/api_client.dart';
 import 'package:fulldioproject/core/constants/github_constants.dart';
 import 'package:fulldioproject/core/logger/app_logger.dart';
 import 'package:fulldioproject/features/repo_explorer/file_viewr_screen.dart';
-import 'package:fulldioproject/features/theme/theme_toggle_button.dart'; // <-- import toggle
+import 'package:fulldioproject/features/theme/theme_toggle_button.dart';
+import 'package:fulldioproject/features/user_Info/user_screen.dart';
 
 class RepoExplorerScreen extends ConsumerStatefulWidget {
   final String owner;
@@ -77,13 +77,44 @@ class _RepoExplorerScreenState extends ConsumerState<RepoExplorerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final dirColor = isDark ? Colors.green[300] : Colors.green[800];
+    final fileColor = isDark ? Colors.teal[200] : Colors.teal[800];
+    final textColor = isDark ? Colors.white : Colors.black87;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
           "${widget.repo}${widget.path.isNotEmpty ? '/${widget.path}' : ''}",
         ),
-        actions: const [
-          ThemeToggleButton(), // <-- added toggle button
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.person),
+            tooltip: "Owner Page",
+            onPressed: () async {
+              try {
+                final authUser = await _apiClient.getAuthenticatedUser();
+
+                // Navigate to GithubUserScreen
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => GithubUserScreen(username: widget.owner),
+                  ),
+                );
+              } catch (e) {
+                // fallback if authenticated user not fetched
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => GithubUserScreen(username: widget.owner),
+                  ),
+                );
+              }
+            },
+          ),
+
+          const ThemeToggleButton(),
         ],
       ),
       body: _loading
@@ -93,7 +124,7 @@ class _RepoExplorerScreenState extends ConsumerState<RepoExplorerScreen> {
               itemCount: _items.length,
               itemBuilder: (context, index) {
                 final item = _items[index];
-                final type = item['type']; // "file" or "dir"
+                final type = item['type'];
                 final name = item['name'];
                 final path = item['path'];
 
@@ -107,14 +138,12 @@ class _RepoExplorerScreenState extends ConsumerState<RepoExplorerScreen> {
                   child: ListTile(
                     leading: Icon(
                       type == 'dir' ? Icons.folder : Icons.insert_drive_file,
-                      color: type == 'dir' ? Colors.green : Colors.teal,
+                      color: type == 'dir' ? dirColor : fileColor,
                     ),
                     title: Text(
                       name,
                       style: TextStyle(
-                        color: type == 'dir'
-                            ? Colors.green[800]
-                            : Colors.teal[800],
+                        color: textColor,
                         fontWeight: type == 'dir'
                             ? FontWeight.bold
                             : FontWeight.normal,
@@ -133,7 +162,7 @@ class _RepoExplorerScreenState extends ConsumerState<RepoExplorerScreen> {
                           ),
                         );
                       } else if (type == 'file') {
-                        _openFile(path, name); // <-- pass path
+                        _openFile(path, name);
                       }
                     },
                   ),
