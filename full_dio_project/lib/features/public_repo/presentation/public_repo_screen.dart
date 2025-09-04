@@ -16,6 +16,7 @@ class PublicRepoScreen extends ConsumerStatefulWidget {
 class _PublicRepoScreenState extends ConsumerState<PublicRepoScreen> {
   final ScrollController _scrollController = ScrollController();
   final TextEditingController _searchController = TextEditingController();
+  final FocusNode _searchFocusNode = FocusNode();
 
   @override
   void initState() {
@@ -45,6 +46,7 @@ class _PublicRepoScreenState extends ConsumerState<PublicRepoScreen> {
       final query = _searchController.text.trim();
       if (query.isEmpty) {
         ref.read(searchRepoNotifierProvider.notifier).clear();
+        _searchFocusNode.unfocus(); // Remove focus when cleared
       } else {
         ref.read(searchRepoNotifierProvider.notifier).search(query);
       }
@@ -56,6 +58,7 @@ class _PublicRepoScreenState extends ConsumerState<PublicRepoScreen> {
   void dispose() {
     _scrollController.dispose();
     _searchController.dispose();
+    _searchFocusNode.dispose();
     super.dispose();
   }
 
@@ -81,6 +84,8 @@ class _PublicRepoScreenState extends ConsumerState<PublicRepoScreen> {
           IconButton(
             icon: const Icon(Icons.star, color: Colors.amber),
             onPressed: () {
+              // Unfocus before navigating to prevent keyboard
+              _searchFocusNode.unfocus();
               Navigator.pushNamed(context, RouteNames.starredRepos);
             },
           ),
@@ -92,6 +97,7 @@ class _PublicRepoScreenState extends ConsumerState<PublicRepoScreen> {
             padding: const EdgeInsets.all(8.0),
             child: TextField(
               controller: _searchController,
+              focusNode: _searchFocusNode,
               decoration: InputDecoration(
                 hintText: 'Search Repos...',
                 prefixIcon: const Icon(Icons.search),
@@ -100,6 +106,7 @@ class _PublicRepoScreenState extends ConsumerState<PublicRepoScreen> {
                         icon: const Icon(Icons.clear),
                         onPressed: () {
                           _searchController.clear();
+                          _searchFocusNode.unfocus(); // Remove focus instantly
                         },
                       )
                     : null,
@@ -179,6 +186,7 @@ class _PublicRepoScreenState extends ConsumerState<PublicRepoScreen> {
                           },
                         ),
                         onTap: () {
+                          _searchFocusNode.unfocus(); // Remove keyboard on tap
                           Navigator.pushNamed(
                             context,
                             RouteNames.repoExplorer,
