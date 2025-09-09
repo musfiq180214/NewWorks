@@ -1,0 +1,54 @@
+{
+    "project_info": {
+        "project_number": "529110185023",
+        "project_id": "misfit-personnel",
+        "storage_bucket": "misfit-personnel.appspot.com"
+    },
+    "client": [
+        {
+            "client_info": {
+                "mobilesdk_app_id": "1:529110185023:android:899ba5f09f880f0753748a",
+                "android_client_info": {
+                    "package_name": "com.misfit.employeeManagement"
+                }
+            },
+            "oauth_client": [
+                {
+                    "client_id": "529110185023-ilucbtbr3ie55v8q3pbjgvt69pnjooel.apps.googleusercontent.com",
+                    "client_type": 1,
+                    "android_info": {
+                        "package_name": "com.misfit.employeeManagement",
+                        "certificate_hash": "12e08a6d86fea807939351cb43ae0c2e1e988a4e"
+                    }
+                },
+                {
+                    "client_id": "529110185023-ham5al7207m93brlh0fr8cg4stt8tb1m.apps.googleusercontent.com",
+                    "client_type": 3
+                }
+            ],
+            "api_key": [
+                {
+                    "current_key": "AIzaSyBJpR-OuK0mTbnELlajh3pWVlmeV98IkZ0"
+                }
+            ],
+            "services": {
+                "appinvite_service": {
+                    "other_platform_oauth_client": [
+                        {
+                            "client_id": "529110185023-ham5al7207m93brlh0fr8cg4stt8tb1m.apps.googleusercontent.com",
+                            "client_type": 3
+                        },
+                        {
+                            "client_id": "529110185023-n6gudbdlo4es6tr1n7p0av95dsh9r2tg.apps.googleusercontent.com",
+                            "client_type": 2,
+                            "ios_info": {
+                                "bundle_id": "com.example.employeeManagement"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "configuration_version": "1"
+}
