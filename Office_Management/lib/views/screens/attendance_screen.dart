@@ -13,7 +13,6 @@ class _AttendanceScreenState extends ConsumerState<AttendanceScreen> {
   @override
   void initState() {
     super.initState();
-    // fetch
     Future.microtask(
       () => ref.read(attendanceControllerProvider.notifier).fetchAttendances(),
     );
@@ -22,12 +21,18 @@ class _AttendanceScreenState extends ConsumerState<AttendanceScreen> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(attendanceControllerProvider);
+
     return Scaffold(
-      appBar: AppBar(title: Text('Attendances')),
+      appBar: AppBar(title: const Text('Attendances')),
       body: state.loading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : state.error != null
-          ? Center(child: Text('Error: ${state.error}'))
+          ? Center(
+              child: Text(
+                'Error: ${state.error}',
+                style: const TextStyle(color: Colors.red, fontSize: 16),
+              ),
+            )
           : ListView.builder(
               itemCount: state.items.length,
               itemBuilder: (_, i) {
