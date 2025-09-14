@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:office_management/Features/employees/widgets/email_launcher.dart';
+import 'package:office_management/Features/employees/widgets/phone_launcher.dart';
 
 class EmployeeDetailPage extends StatelessWidget {
   final dynamic employeeDetail;
 
   const EmployeeDetailPage({Key? key, required this.employeeDetail})
     : super(key: key);
-
-  // Helper function to open phone or email is removed for simplicity
-  // You can implement url_launcher later if needed
 
   @override
   Widget build(BuildContext context) {
@@ -55,9 +54,9 @@ class EmployeeDetailPage extends StatelessWidget {
                 ),
               ),
               // Email
-              _infoRow("Email", employeeDetail.email),
+              EmailLauncher(email: employeeDetail.email),
               // Phone
-              _infoRow("Phone", employeeDetail.phone),
+              PhoneLauncher(phone: employeeDetail.phone),
               // Blood Group
               _infoRow("Blood Group", employeeDetail.bloodGroup),
               // Donor
@@ -87,14 +86,17 @@ class EmployeeDetailPage extends StatelessWidget {
             "$label: ",
             style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
           ),
-          Text(
-            value != null && value.toString().isNotEmpty
-                ? value.toString()
-                : "N/A",
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              color: Colors.black54,
+          Expanded(
+            child: Text(
+              value != null && value.toString().isNotEmpty
+                  ? value.toString()
+                  : "N/A",
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: Colors.black54,
+              ),
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ],

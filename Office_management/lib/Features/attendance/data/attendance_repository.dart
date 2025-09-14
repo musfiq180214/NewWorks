@@ -1,4 +1,6 @@
 import 'package:office_management/Features/attendance/domain/attendance_model.dart';
+import 'package:office_management/core/api_client.dart';
+import 'package:office_management/core/constants.dart';
 
 class AttendanceRepository {
   // Local mock data with multiple dates
@@ -112,11 +114,10 @@ class AttendanceRepository {
   }
 
   // Future API version (commented for now)
-  /*
-  Future<List<Attendance>> fetchFromApi() async {
-    final resp = await APIClient().get(EndPoints.attendencesPath);
-    final List<dynamic> data = resp['data'] ?? [];
-    return data.map((e) => Attendance.fromJson(e)).toList();
-  }
-  */
+
+  // Future<List<Attendance>> fetchAttendances() async {
+  //   final resp = await APIClient().get(EndPoints.attendencesPath);
+  //   final List<dynamic> data = resp['data'] ?? [];
+  //   return data.map((e) => Attendance.fromJson(e)).toList();
+  // }
 }
