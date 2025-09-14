@@ -5,7 +5,7 @@ import '../../utils/storage.dart';
 import '../login/login_screen.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+  const SplashScreen({super.key});
 
   @override
   ConsumerState<SplashScreen> createState() => _SplashScreenState();
@@ -20,19 +20,23 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
   Future<void> _checkAuth() async {
     final token = await Storage.getToken();
+
+    // ✅ Guard against disposed state
+    if (!mounted) return;
+
     if (token != null && token.isNotEmpty) {
-      Navigator.of(
-        context,
-      ).pushReplacement(MaterialPageRoute(builder: (_) => DashboardScreen()));
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (_) => const DashboardScreen()),
+      );
     } else {
       Navigator.of(
         context,
-      ).pushReplacement(MaterialPageRoute(builder: (_) => LoginScreen()));
+      ).pushReplacement(MaterialPageRoute(builder: (_) => const LoginScreen()));
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: CircularProgressIndicator()));
+    return const Scaffold(body: Center(child: CircularProgressIndicator()));
   }
 }

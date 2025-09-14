@@ -24,6 +24,7 @@ class AppRoutes {
     attendance: (_) => const AttendanceScreen(),
     employees: (_) => const EmployeeListScreen(),
   };
+
   // onGenerateRoute for passing arguments
   static Route<dynamic>? generateRoute(RouteSettings settings) {
     switch (settings.name) {

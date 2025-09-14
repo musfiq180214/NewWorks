@@ -4,7 +4,7 @@ import 'package:office_management/Features/dashboard/dashboard_screen.dart';
 import '../../providers/auth_provider.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({super.key});
 
   @override
   ConsumerState<LoginScreen> createState() => _LoginScreenState();
@@ -20,23 +20,23 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final authCtrl = ref.read(authControllerProvider.notifier);
 
     return Scaffold(
-      appBar: AppBar(title: Text('Sign in')),
+      appBar: AppBar(title: const Text('Sign in')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             TextField(
               controller: _emailCtrl,
-              decoration: InputDecoration(labelText: 'Email'),
+              decoration: const InputDecoration(labelText: 'Email'),
             ),
             TextField(
               controller: _passCtrl,
-              decoration: InputDecoration(labelText: 'Password'),
+              decoration: const InputDecoration(labelText: 'Password'),
               obscureText: true,
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             if (authState.error != null)
-              Text(authState.error!, style: TextStyle(color: Colors.red)),
+              Text(authState.error!, style: const TextStyle(color: Colors.red)),
             ElevatedButton(
               onPressed: authState.loading
                   ? null
@@ -45,16 +45,22 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         _emailCtrl.text.trim(),
                         _passCtrl.text.trim(),
                       );
+
+                      // Always guard before using State.context
+                      if (!mounted) return;
+
                       final newState = ref.read(authControllerProvider);
                       if (newState.user != null) {
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(builder: (_) => DashboardScreen()),
+                        Navigator.of(this.context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (_) => const DashboardScreen(),
+                          ),
                         );
                       }
                     },
               child: authState.loading
-                  ? CircularProgressIndicator()
-                  : Text('Login'),
+                  ? const CircularProgressIndicator()
+                  : const Text('Login'),
             ),
           ],
         ),

@@ -1,106 +1,219 @@
 import 'package:flutter/material.dart';
 import 'package:office_management/Features/employees/widgets/email_launcher.dart';
 import 'package:office_management/Features/employees/widgets/phone_launcher.dart';
+import 'package:office_management/constants/Colors.dart';
 
 class EmployeeDetailPage extends StatelessWidget {
   final dynamic employeeDetail;
 
-  const EmployeeDetailPage({Key? key, required this.employeeDetail})
-    : super(key: key);
+  const EmployeeDetailPage({super.key, required this.employeeDetail});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Employee Details'),
-        backgroundColor: Colors.blue,
-      ),
-      body: SingleChildScrollView(
-        child: Container(
-          alignment: Alignment.center,
-          margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-          child: Column(
-            children: [
-              // Name & Designation
-              Container(
-                height: 150,
-                margin: const EdgeInsets.only(bottom: 10),
-                alignment: Alignment.center,
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Colors.grey.shade200,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      employeeDetail.name ?? "N/A",
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
+      backgroundColor: Colors.transparent,
+      body: Container(
+        decoration: BoxDecoration(gradient: kAppGradient),
+        width: double.infinity,
+        height: double.infinity,
+        child: SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+            child: Column(
+              children: [
+                // Custom AppBar
+                _customAppBar(context, 'Employee Details'),
+                const SizedBox(height: 15),
+
+                // Name & Designation Card
+                _infoCard(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        employeeDetail.name ?? "N/A",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: kTextColor,
+                        ),
                       ),
-                    ),
-                    Text(
-                      employeeDetail.designation ?? "N/A",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.grey[400],
+                      const SizedBox(height: 5),
+                      Text(
+                        employeeDetail.designation ?? "N/A",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: kTextColor,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              // Email
-              EmailLauncher(email: employeeDetail.email),
-              // Phone
-              PhoneLauncher(phone: employeeDetail.phone),
-              // Blood Group
-              _infoRow("Blood Group", employeeDetail.bloodGroup),
-              // Donor
-              _infoRow("Donor", employeeDetail.isDonor == true ? "Yes" : "No"),
-            ],
+                const SizedBox(height: 10),
+
+                // Clickable Email with icon on right
+                _gradientCard(
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: EmailLauncher(
+                          email: employeeDetail.email,
+                          textStyle: const TextStyle(
+                            fontSize: 14,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      const Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.white,
+                        size: 16,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 10),
+
+                // Clickable Phone with icon on right
+                _gradientCard(
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: PhoneLauncher(
+                          phone: employeeDetail.phone,
+                          textStyle: const TextStyle(
+                            fontSize: 14,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      const Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.white,
+                        size: 16,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 10),
+
+                // Blood Group
+                _gradientCard(
+                  child: _infoTextRow("Blood Group", employeeDetail.bloodGroup),
+                ),
+                const SizedBox(height: 10),
+
+                // Donor
+                _gradientCard(
+                  child: _infoTextRow(
+                    "Donor",
+                    employeeDetail.isDonor == true ? "Yes" : "No",
+                  ),
+                ),
+
+                const SizedBox(height: 20),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _infoRow(String label, dynamic value) {
+  // Custom AppBar
+  Widget _customAppBar(BuildContext context, String title) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 10),
-      height: 60,
-      alignment: Alignment.center,
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+      width: double.infinity,
+      child: Row(
+        children: [
+          GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: Icon(Icons.arrow_back, color: kTextColor),
+          ),
+          const SizedBox(width: 15),
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: kTextColor,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _infoCard({required Widget child}) {
+    return Container(
+      height: 150,
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 10),
+      margin: const EdgeInsets.only(bottom: 10),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
-        color: Colors.grey.shade200,
+        color: kPrimaryColor.withAlpha((0.2 * 255).round()),
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: kPrimaryColor.withAlpha((0.3 * 255).round()),
+            blurRadius: 6,
+            offset: const Offset(0, 3),
+          ),
+        ],
       ),
+      child: Center(child: child),
+    );
+  }
+
+  // Non-clickable text row
+  Widget _infoTextRow(String label, dynamic value) {
+    return Container(
+      height: 50,
+      alignment: Alignment.centerLeft,
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(
             "$label: ",
-            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              color: Colors.white,
+            ),
           ),
           Expanded(
             child: Text(
               value != null && value.toString().isNotEmpty
                   ? value.toString()
                   : "N/A",
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-                color: Colors.black54,
-              ),
+              style: const TextStyle(fontSize: 14, color: Colors.white),
               overflow: TextOverflow.ellipsis,
             ),
           ),
         ],
       ),
+    );
+  }
+
+  // Gradient card wrapper
+  Widget _gradientCard({required Widget child}) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      decoration: BoxDecoration(
+        gradient: kAppGradient,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: kPrimaryColor.withAlpha((0.3 * 255).round()),
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: child,
     );
   }
 }

@@ -8,7 +8,7 @@ import '../avg_attendance/screens/avarage_time_screen.dart';
 import '../employees/presentation/employee_list_screen.dart';
 
 class DashboardScreen extends ConsumerWidget {
-  const DashboardScreen({Key? key}) : super(key: key);
+  const DashboardScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -60,7 +60,10 @@ class DashboardScreen extends ConsumerWidget {
                   onPressed: () => Navigator.of(context).push(
                     MaterialPageRoute(builder: (_) => const AttendanceScreen()),
                   ),
-                  child: const Text('Attendances'),
+                  child: const Text(
+                    'Attendances',
+                    style: TextStyle(color: kTextColor),
+                  ),
                 ),
                 const SizedBox(height: 16),
                 ElevatedButton(
@@ -74,7 +77,10 @@ class DashboardScreen extends ConsumerWidget {
                       builder: (_) => const EmployeeListScreen(),
                     ),
                   ),
-                  child: const Text('Employees'),
+                  child: const Text(
+                    'Employees',
+                    style: TextStyle(color: kTextColor),
+                  ),
                 ),
                 const SizedBox(height: 16),
                 ElevatedButton(
@@ -88,7 +94,10 @@ class DashboardScreen extends ConsumerWidget {
                       builder: (_) => const AverageTimeScreen(),
                     ),
                   ),
-                  child: const Text('Average Attendance'),
+                  child: const Text(
+                    'Average Attendance',
+                    style: TextStyle(color: kTextColor),
+                  ),
                 ),
               ],
             ),

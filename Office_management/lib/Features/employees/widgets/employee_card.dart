@@ -4,7 +4,7 @@ import 'package:office_management/Features/employees/domain/employee.dart';
 class EmployeeCard extends StatelessWidget {
   final Employee employee;
 
-  const EmployeeCard({Key? key, required this.employee}) : super(key: key);
+  const EmployeeCard({super.key, required this.employee});
 
   @override
   Widget build(BuildContext context) {

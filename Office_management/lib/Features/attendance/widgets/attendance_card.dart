@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:office_management/Features/attendance/domain/attendance_model.dart';
+import 'package:office_management/constants/Colors.dart';
 
 class AttendanceCard extends StatelessWidget {
   final Attendance attendance;
@@ -52,6 +53,7 @@ class AttendanceCard extends StatelessWidget {
               Text(
                 attendance.name,
                 style: const TextStyle(
+                  color: kTextColor,
                   fontSize: 20,
                   fontWeight: FontWeight.w500,
                 ),

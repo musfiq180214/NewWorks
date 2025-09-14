@@ -3,8 +3,9 @@ import 'package:url_launcher/url_launcher.dart';
 
 class EmailLauncher extends StatelessWidget {
   final String? email;
+  final TextStyle? textStyle; // Add this
 
-  const EmailLauncher({Key? key, required this.email}) : super(key: key);
+  const EmailLauncher({super.key, required this.email, this.textStyle});
 
   String? _encodeQueryParameters(Map<String, String> params) {
     return params.entries
@@ -62,41 +63,35 @@ class EmailLauncher extends StatelessWidget {
           _showSnackBar(context, "Email not available.");
         }
       },
-      child: _infoRow("Email", email, isClickable: true),
+      child: _infoRow("Email", email),
     );
   }
 
-  Widget _infoRow(String label, dynamic value, {bool isClickable = false}) {
+  Widget _infoRow(String label, dynamic value, {IconData? icon}) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 10),
-      height: 60,
-      alignment: Alignment.center,
-      width: double.infinity,
+      height: 50,
+      alignment: Alignment.centerLeft,
       padding: const EdgeInsets.symmetric(horizontal: 10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
-        color: isClickable ? Colors.blue.shade50 : Colors.grey.shade200,
-      ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
         children: [
+          if (icon != null) ...[
+            Icon(icon, color: textStyle?.color ?? Colors.black54, size: 18),
+            const SizedBox(width: 5),
+          ],
           Text(
             "$label: ",
-            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+            style:
+                textStyle ??
+                const TextStyle(fontSize: 14, color: Colors.black54),
           ),
           Expanded(
             child: Text(
               value != null && value.toString().isNotEmpty
                   ? value.toString()
                   : "N/A",
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-                color: isClickable ? Colors.blue : Colors.black54,
-                decoration: isClickable
-                    ? TextDecoration.underline
-                    : TextDecoration.none,
-              ),
+              style:
+                  textStyle ??
+                  const TextStyle(fontSize: 14, color: Colors.black54),
               overflow: TextOverflow.ellipsis,
             ),
           ),
