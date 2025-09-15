@@ -27,15 +27,13 @@ class _EmployeeListScreenState extends ConsumerState<EmployeeListScreen> {
     // Listen to scroll for lazy loading
     scrollController.addListener(() {
       if (scrollController.position.pixels >=
-              scrollController.position.maxScrollExtent - 200 &&
-          searchController.text.isEmpty) {
+          scrollController.position.maxScrollExtent - 200) {
         ref.read(employeeControllerProvider.notifier).loadMore();
       }
     });
   }
 
   void _onSearchTap() {
-    // Focus only when user taps search
     FocusScope.of(context).requestFocus(searchFocusNode);
     searchController.addListener(_searchListener);
   }
@@ -52,9 +50,7 @@ class _EmployeeListScreenState extends ConsumerState<EmployeeListScreen> {
   void _clearSearch() {
     searchController.clear();
     ref.read(employeeControllerProvider.notifier).loadEmployees();
-    // Hide keyboard
     FocusScope.of(context).unfocus();
-    // Remove listener until user taps search again
     searchController.removeListener(_searchListener);
   }
 

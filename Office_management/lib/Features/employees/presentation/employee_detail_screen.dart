@@ -52,48 +52,36 @@ class EmployeeDetailPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
 
-                // Clickable Email with icon on right
+                // Clickable Email (whole row clickable including arrow)
                 _gradientCard(
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: EmailLauncher(
-                          email: employeeDetail.email,
-                          textStyle: const TextStyle(
-                            fontSize: 14,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                      const Icon(
-                        Icons.arrow_forward_ios,
-                        color: Colors.white,
-                        size: 16,
-                      ),
-                    ],
+                  child: EmailLauncher(
+                    email: employeeDetail.email,
+                    textStyle: const TextStyle(
+                      fontSize: 14,
+                      color: Colors.white,
+                    ),
+                    trailing: const Icon(
+                      Icons.arrow_forward_ios,
+                      color: Colors.white,
+                      size: 16,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 10),
 
-                // Clickable Phone with icon on right
+                // Clickable Phone (whole row clickable including arrow)
                 _gradientCard(
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: PhoneLauncher(
-                          phone: employeeDetail.phone,
-                          textStyle: const TextStyle(
-                            fontSize: 14,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                      const Icon(
-                        Icons.arrow_forward_ios,
-                        color: Colors.white,
-                        size: 16,
-                      ),
-                    ],
+                  child: PhoneLauncher(
+                    phone: employeeDetail.phone,
+                    textStyle: const TextStyle(
+                      fontSize: 14,
+                      color: Colors.white,
+                    ),
+                    trailing: const Icon(
+                      Icons.arrow_forward_ios,
+                      color: Colors.white,
+                      size: 16,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 10),
