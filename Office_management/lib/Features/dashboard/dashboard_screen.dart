@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:office_management/Features/month_wise_history/presentation/month_wise_history.dart';
 import 'package:office_management/constants/Colors.dart';
 import '../../providers/auth_provider.dart';
 
@@ -96,6 +97,24 @@ class DashboardScreen extends ConsumerWidget {
                   ),
                   child: const Text(
                     'Average Attendance',
+                    style: TextStyle(color: kTextColor),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                // New Button for Month-wise History
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size.fromHeight(50),
+                    backgroundColor: Colors.white,
+                    foregroundColor: kPrimaryColor,
+                  ),
+                  onPressed: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => const MonthWiseHistoryScreen(),
+                    ),
+                  ),
+                  child: const Text(
+                    'Month-wise Attendance',
                     style: TextStyle(color: kTextColor),
                   ),
                 ),

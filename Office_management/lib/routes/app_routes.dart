@@ -1,12 +1,10 @@
-// import '../views/screens/attendance_screen.dart';
-// import '../views/screens/employee_list_screen.dart';
-
 import 'package:flutter/material.dart';
 import 'package:office_management/Features/attendance/presentation/attendance_screen.dart';
 import 'package:office_management/Features/dashboard/dashboard_screen.dart';
 import 'package:office_management/Features/employees/presentation/employee_detail_screen.dart';
 import 'package:office_management/Features/employees/presentation/employee_list_screen.dart';
 import 'package:office_management/Features/login/login_screen.dart';
+import 'package:office_management/Features/month_wise_history/presentation/month_wise_history.dart';
 import 'package:office_management/Features/splash/splash_screen.dart';
 
 class AppRoutes {
@@ -16,6 +14,7 @@ class AppRoutes {
   static const attendance = '/attendance';
   static const employees = '/employees';
   static const employeeDetail = '/employeeDetail';
+  static const monthWiseHistory = '/monthWiseHistory'; // new route
 
   static Map<String, WidgetBuilder> get routes => {
     splash: (_) => const SplashScreen(),
@@ -23,6 +22,7 @@ class AppRoutes {
     dashboard: (_) => const DashboardScreen(),
     attendance: (_) => const AttendanceScreen(),
     employees: (_) => const EmployeeListScreen(),
+    monthWiseHistory: (_) => const MonthWiseHistoryScreen(), // new screen
   };
 
   // onGenerateRoute for passing arguments

@@ -1,0 +1,111 @@
+import 'package:office_management/Features/month_wise_history/domain/month_wise_history_model.dart';
+
+class MonthWiseHistoryRepository {
+  // Local mock data: 10 entries
+  Future<List<MonthWiseHistoryModelData>> fetchMonthHistory() async {
+    await Future.delayed(const Duration(milliseconds: 500)); // simulate delay
+
+    return [
+      MonthWiseHistoryModelData(
+        id: '1',
+        employeeId: 'EMP101',
+        name: 'John Doe',
+        empDeviceId: 'DEV201',
+        date: DateTime(2025, 9, 1),
+        inTime: '09:05',
+        outTime: '17:10',
+        duration: '8h 5m',
+      ),
+      MonthWiseHistoryModelData(
+        id: '2',
+        employeeId: 'EMP102',
+        name: 'Jane Smith',
+        empDeviceId: 'DEV202',
+        date: DateTime(2025, 9, 2),
+        inTime: '09:15',
+        outTime: '17:20',
+        duration: '8h 5m',
+      ),
+      MonthWiseHistoryModelData(
+        id: '3',
+        employeeId: 'EMP103',
+        name: 'Michael Johnson',
+        empDeviceId: 'DEV203',
+        date: DateTime(2025, 9, 3),
+        inTime: '08:55',
+        outTime: '16:55',
+        duration: '8h',
+      ),
+      MonthWiseHistoryModelData(
+        id: '4',
+        employeeId: 'EMP104',
+        name: 'Emily Davis',
+        empDeviceId: 'DEV204',
+        date: DateTime(2025, 9, 4),
+        inTime: '09:10',
+        outTime: '17:10',
+        duration: '8h',
+      ),
+      MonthWiseHistoryModelData(
+        id: '5',
+        employeeId: 'EMP105',
+        name: 'Chris Brown',
+        empDeviceId: 'DEV205',
+        date: DateTime(2025, 9, 5),
+        inTime: '09:00',
+        outTime: '17:05',
+        duration: '8h 5m',
+      ),
+      MonthWiseHistoryModelData(
+        id: '6',
+        employeeId: 'EMP106',
+        name: 'Sophia Wilson',
+        empDeviceId: 'DEV206',
+        date: DateTime(2025, 9, 6),
+        inTime: '09:20',
+        outTime: '17:25',
+        duration: '8h 5m',
+      ),
+      MonthWiseHistoryModelData(
+        id: '7',
+        employeeId: 'EMP107',
+        name: 'David Lee',
+        empDeviceId: 'DEV207',
+        date: DateTime(2025, 9, 7),
+        inTime: '08:50',
+        outTime: '16:50',
+        duration: '8h',
+      ),
+      MonthWiseHistoryModelData(
+        id: '8',
+        employeeId: 'EMP108',
+        name: 'Olivia Martinez',
+        empDeviceId: 'DEV208',
+        date: DateTime(2025, 9, 8),
+        inTime: '09:05',
+        outTime: '17:10',
+        duration: '8h 5m',
+      ),
+      MonthWiseHistoryModelData(
+        id: '9',
+        employeeId: 'EMP109',
+        name: 'Liam Thompson',
+        empDeviceId: 'DEV209',
+        date: DateTime(2025, 9, 9),
+        inTime: '09:00',
+        outTime: '17:05',
+        duration: '8h 5m',
+      ),
+      MonthWiseHistoryModelData(
+        id: '10',
+        employeeId: 'EMP110',
+        name: 'Emma Garcia',
+        empDeviceId: 'DEV210',
+        date: DateTime(2025, 9, 10),
+        inTime: '09:10',
+        outTime: '17:15',
+        duration: '8h 5m',
+      ),
+    ];
+  }
+}
