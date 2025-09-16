@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
       // initialRoute: AppRoutes.splash,
       routes: AppRoutes.routes,
       onGenerateRoute: AppRoutes.generateRoute, // <-- this is required
+      debugShowCheckedModeBanner: false,
     );
   }
 }
