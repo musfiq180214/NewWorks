@@ -13,7 +13,7 @@ class MonthWiseHistoryRepository {
         empDeviceId: 'DEV201',
         date: DateTime(2025, 7, 1),
         inTime: '09:00',
-        outTime: '17:05',
+        outTime: '18:05',
         duration: '8h 5m',
       ),
       MonthWiseHistoryModelData(
@@ -23,7 +23,7 @@ class MonthWiseHistoryRepository {
         empDeviceId: 'DEV202',
         date: DateTime(2025, 7, 1),
         inTime: '09:10',
-        outTime: '17:15',
+        outTime: '18:15',
         duration: '8h 5m',
       ),
       MonthWiseHistoryModelData(
@@ -33,7 +33,7 @@ class MonthWiseHistoryRepository {
         empDeviceId: 'DEV203',
         date: DateTime(2025, 7, 1),
         inTime: '08:50',
-        outTime: '16:50',
+        outTime: '17:50',
         duration: '8h',
       ),
       MonthWiseHistoryModelData(
@@ -43,7 +43,7 @@ class MonthWiseHistoryRepository {
         empDeviceId: 'DEV204',
         date: DateTime(2025, 7, 1),
         inTime: '09:05',
-        outTime: '17:10',
+        outTime: '18:10',
         duration: '8h 5m',
       ),
       MonthWiseHistoryModelData(
@@ -53,7 +53,7 @@ class MonthWiseHistoryRepository {
         empDeviceId: 'DEV205',
         date: DateTime(2025, 7, 1),
         inTime: '09:15',
-        outTime: '17:20',
+        outTime: '18:20',
         duration: '8h 5m',
       ),
       MonthWiseHistoryModelData(
@@ -63,7 +63,7 @@ class MonthWiseHistoryRepository {
         empDeviceId: 'DEV206',
         date: DateTime(2025, 7, 1),
         inTime: '09:20',
-        outTime: '17:25',
+        outTime: '18:25',
         duration: '8h 5m',
       ),
       MonthWiseHistoryModelData(
@@ -73,7 +73,7 @@ class MonthWiseHistoryRepository {
         empDeviceId: 'DEV207',
         date: DateTime(2025, 7, 1),
         inTime: '08:55',
-        outTime: '16:55',
+        outTime: '17:55',
         duration: '8h',
       ),
       MonthWiseHistoryModelData(
@@ -83,7 +83,7 @@ class MonthWiseHistoryRepository {
         empDeviceId: 'DEV208',
         date: DateTime(2025, 7, 1),
         inTime: '09:00',
-        outTime: '17:00',
+        outTime: '18:00',
         duration: '8h',
       ),
       MonthWiseHistoryModelData(
@@ -93,7 +93,7 @@ class MonthWiseHistoryRepository {
         empDeviceId: 'DEV209',
         date: DateTime(2025, 7, 1),
         inTime: '09:05',
-        outTime: '17:10',
+        outTime: '18:10',
         duration: '8h 5m',
       ),
       MonthWiseHistoryModelData(
@@ -103,7 +103,7 @@ class MonthWiseHistoryRepository {
         empDeviceId: 'DEV210',
         date: DateTime(2025, 7, 1),
         inTime: '09:10',
-        outTime: '17:15',
+        outTime: '18:15',
         duration: '8h 5m',
       ),
 
@@ -115,7 +115,7 @@ class MonthWiseHistoryRepository {
         empDeviceId: 'DEV201',
         date: DateTime(2025, 8, 1),
         inTime: '08:55',
-        outTime: '16:55',
+        outTime: '17:55',
         duration: '8h',
       ),
       MonthWiseHistoryModelData(
@@ -125,7 +125,7 @@ class MonthWiseHistoryRepository {
         empDeviceId: 'DEV202',
         date: DateTime(2025, 8, 1),
         inTime: '09:05',
-        outTime: '17:05',
+        outTime: '18:05',
         duration: '8h',
       ),
       MonthWiseHistoryModelData(
@@ -135,7 +135,7 @@ class MonthWiseHistoryRepository {
         empDeviceId: 'DEV203',
         date: DateTime(2025, 8, 1),
         inTime: '09:10',
-        outTime: '17:15',
+        outTime: '18:15',
         duration: '8h 5m',
       ),
       MonthWiseHistoryModelData(
@@ -145,7 +145,7 @@ class MonthWiseHistoryRepository {
         empDeviceId: 'DEV204',
         date: DateTime(2025, 8, 1),
         inTime: '09:00',
-        outTime: '17:05',
+        outTime: '18:05',
         duration: '8h 5m',
       ),
       MonthWiseHistoryModelData(
@@ -155,7 +155,7 @@ class MonthWiseHistoryRepository {
         empDeviceId: 'DEV205',
         date: DateTime(2025, 8, 1),
         inTime: '09:20',
-        outTime: '17:25',
+        outTime: '18:25',
         duration: '8h 5m',
       ),
       MonthWiseHistoryModelData(
@@ -165,7 +165,7 @@ class MonthWiseHistoryRepository {
         empDeviceId: 'DEV206',
         date: DateTime(2025, 8, 1),
         inTime: '09:10',
-        outTime: '17:15',
+        outTime: '18:15',
         duration: '8h 5m',
       ),
       MonthWiseHistoryModelData(
@@ -175,7 +175,7 @@ class MonthWiseHistoryRepository {
         empDeviceId: 'DEV207',
         date: DateTime(2025, 8, 1),
         inTime: '08:50',
-        outTime: '16:50',
+        outTime: '17:50',
         duration: '8h',
       ),
       MonthWiseHistoryModelData(
@@ -185,7 +185,7 @@ class MonthWiseHistoryRepository {
         empDeviceId: 'DEV208',
         date: DateTime(2025, 8, 1),
         inTime: '09:05',
-        outTime: '17:10',
+        outTime: '18:10',
         duration: '8h 5m',
       ),
       MonthWiseHistoryModelData(
@@ -195,7 +195,7 @@ class MonthWiseHistoryRepository {
         empDeviceId: 'DEV209',
         date: DateTime(2025, 8, 1),
         inTime: '09:00',
-        outTime: '17:05',
+        outTime: '18:05',
         duration: '8h 5m',
       ),
       MonthWiseHistoryModelData(
@@ -205,7 +205,7 @@ class MonthWiseHistoryRepository {
         empDeviceId: 'DEV210',
         date: DateTime(2025, 8, 1),
         inTime: '09:15',
-        outTime: '17:20',
+        outTime: '18:20',
         duration: '8h 5m',
       ),
 
@@ -217,7 +217,7 @@ class MonthWiseHistoryRepository {
         empDeviceId: 'DEV201',
         date: DateTime(2025, 9, 1),
         inTime: '09:05',
-        outTime: '17:10',
+        outTime: '18:10',
         duration: '8h 5m',
       ),
       MonthWiseHistoryModelData(
@@ -227,7 +227,7 @@ class MonthWiseHistoryRepository {
         empDeviceId: 'DEV202',
         date: DateTime(2025, 9, 1),
         inTime: '09:15',
-        outTime: '17:20',
+        outTime: '18:20',
         duration: '8h 5m',
       ),
       MonthWiseHistoryModelData(
@@ -237,7 +237,7 @@ class MonthWiseHistoryRepository {
         empDeviceId: 'DEV203',
         date: DateTime(2025, 9, 1),
         inTime: '08:55',
-        outTime: '16:55',
+        outTime: '17:55',
         duration: '8h',
       ),
       MonthWiseHistoryModelData(
@@ -247,7 +247,7 @@ class MonthWiseHistoryRepository {
         empDeviceId: 'DEV204',
         date: DateTime(2025, 9, 1),
         inTime: '09:10',
-        outTime: '17:10',
+        outTime: '18:10',
         duration: '8h',
       ),
       MonthWiseHistoryModelData(
@@ -257,7 +257,7 @@ class MonthWiseHistoryRepository {
         empDeviceId: 'DEV205',
         date: DateTime(2025, 9, 1),
         inTime: '09:00',
-        outTime: '17:05',
+        outTime: '18:05',
         duration: '8h 5m',
       ),
       MonthWiseHistoryModelData(
@@ -267,7 +267,7 @@ class MonthWiseHistoryRepository {
         empDeviceId: 'DEV206',
         date: DateTime(2025, 9, 1),
         inTime: '09:20',
-        outTime: '17:25',
+        outTime: '18:25',
         duration: '8h 5m',
       ),
       MonthWiseHistoryModelData(
@@ -277,7 +277,7 @@ class MonthWiseHistoryRepository {
         empDeviceId: 'DEV207',
         date: DateTime(2025, 9, 1),
         inTime: '08:50',
-        outTime: '16:50',
+        outTime: '17:50',
         duration: '8h',
       ),
       MonthWiseHistoryModelData(
@@ -287,7 +287,7 @@ class MonthWiseHistoryRepository {
         empDeviceId: 'DEV208',
         date: DateTime(2025, 9, 1),
         inTime: '09:05',
-        outTime: '17:10',
+        outTime: '18:10',
         duration: '8h 5m',
       ),
       MonthWiseHistoryModelData(
@@ -297,7 +297,7 @@ class MonthWiseHistoryRepository {
         empDeviceId: 'DEV209',
         date: DateTime(2025, 9, 1),
         inTime: '09:00',
-        outTime: '17:05',
+        outTime: '18:05',
         duration: '8h 5m',
       ),
       MonthWiseHistoryModelData(
@@ -307,7 +307,7 @@ class MonthWiseHistoryRepository {
         empDeviceId: 'DEV210',
         date: DateTime(2025, 9, 1),
         inTime: '09:10',
-        outTime: '17:15',
+        outTime: '18:15',
         duration: '8h 5m',
       ),
     ];

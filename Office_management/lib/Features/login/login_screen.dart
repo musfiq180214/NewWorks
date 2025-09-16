@@ -21,9 +21,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   // Simple email validation regex
   bool _isValidEmail(String email) {
-    final regex = RegExp(
-      r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-    ); // basic email validation pattern
+    final regex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
     return regex.hasMatch(email);
   }
 
@@ -32,7 +30,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final password = _passCtrl.text.trim();
 
     setState(() {
-      // Email validation
       if (email.isEmpty) {
         _emailError = 'Email cannot be empty';
       } else if (!_isValidEmail(email)) {
@@ -41,14 +38,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         _emailError = null;
       }
 
-      // Password validation
       _passwordError = password.isEmpty ? 'Password cannot be empty' : null;
     });
 
-    // Stop if any error exists
     if (_emailError != null || _passwordError != null) return;
 
-    // Proceed with login
     final authCtrl = ref.read(authControllerProvider.notifier);
     await authCtrl.login(email, password);
 
@@ -82,6 +76,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              // 🔥 GIF above fields
+              SizedBox(
+                height: 200,
+                child: Image.asset(
+                  "assets/avatar.gif", // put your gif in assets folder
+                  fit: BoxFit.contain,
+                ),
+              ),
+              const SizedBox(height: 24),
+
+              // Email Field
               TextField(
                 controller: _emailCtrl,
                 keyboardType: TextInputType.emailAddress,
@@ -94,6 +99,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 ),
               ),
               const SizedBox(height: 16),
+
+              // Password Field
               TextField(
                 controller: _passCtrl,
                 obscureText: _obscurePassword,
@@ -118,11 +125,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 ),
               ),
               const SizedBox(height: 16),
+
               if (authState.error != null)
                 Text(
                   authState.error!,
                   style: const TextStyle(color: Colors.red),
                 ),
+
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: authState.loading ? null : _validateAndLogin,

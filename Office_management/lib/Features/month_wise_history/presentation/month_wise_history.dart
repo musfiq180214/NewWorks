@@ -61,15 +61,28 @@ class _MonthWiseHistoryScreenState
     }
   }
 
+  /// ✅ Fixed time coloring logic
   Color _timeColor(String time, bool isInTime) {
-    if (time == '-') return Colors.grey;
-    final parts = time.split(':');
-    final hour = int.tryParse(parts[0]) ?? 0;
+    if (time == '-' || time.isEmpty) return Colors.grey;
 
-    if (isInTime) {
-      return hour < 9 ? Colors.green : Colors.red;
-    } else {
-      return hour > 17 ? Colors.green : Colors.red;
+    try {
+      final parsed = DateFormat("HH:mm").parse(time);
+
+      if (isInTime) {
+        // IN TIME: <= 09:00 is green, otherwise red
+        final threshold = DateFormat("HH:mm").parse("09:00");
+        return parsed.isBefore(threshold) || parsed.isAtSameMomentAs(threshold)
+            ? Colors.green
+            : Colors.red;
+      } else {
+        // OUT TIME: >= 18:00 is green, otherwise red
+        final threshold = DateFormat("HH:mm").parse("18:00");
+        return parsed.isAfter(threshold) || parsed.isAtSameMomentAs(threshold)
+            ? Colors.green
+            : Colors.red;
+      }
+    } catch (e) {
+      return Colors.grey;
     }
   }
 
@@ -178,7 +191,6 @@ class _MonthWiseHistoryScreenState
                             spacing: 12,
                             runSpacing: 8,
                             children: [
-                              // Employee Dropdown
                               DropdownButton<String>(
                                 dropdownColor: Colors.grey[800],
                                 value: selectedEmployee,
@@ -205,7 +217,6 @@ class _MonthWiseHistoryScreenState
                                   });
                                 },
                               ),
-                              // Month Dropdown
                               DropdownButton<String>(
                                 dropdownColor: Colors.grey[800],
                                 value: selectedMonth,
@@ -232,7 +243,6 @@ class _MonthWiseHistoryScreenState
                                   });
                                 },
                               ),
-                              // Start Date Picker
                               TextButton(
                                 onPressed: () => pickStartDate(context),
                                 child: Row(
@@ -257,7 +267,6 @@ class _MonthWiseHistoryScreenState
                                   ],
                                 ),
                               ),
-                              // End Date Picker
                               TextButton(
                                 onPressed: () => pickEndDate(context),
                                 child: Row(
@@ -282,7 +291,6 @@ class _MonthWiseHistoryScreenState
                                   ],
                                 ),
                               ),
-                              // Clear Filters
                               TextButton(
                                 onPressed: () {
                                   setState(() {
@@ -356,7 +364,6 @@ class _MonthWiseHistoryScreenState
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        // Employee Info
                                         Text(
                                           '${entry.name} (${entry.employeeId})',
                                           style: const TextStyle(
@@ -365,7 +372,6 @@ class _MonthWiseHistoryScreenState
                                           ),
                                         ),
                                         const SizedBox(height: 4),
-                                        // Attendance Info
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
