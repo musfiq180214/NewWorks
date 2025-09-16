@@ -5,7 +5,7 @@ import 'package:office_management/Features/avg_attendance/widgets/avarage_time_c
 import 'package:office_management/constants/Colors.dart';
 
 class AverageTimeScreen extends ConsumerWidget {
-  const AverageTimeScreen({Key? key}) : super(key: key);
+  const AverageTimeScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

@@ -3,8 +3,7 @@ import 'package:office_management/Features/avg_attendance/domain/avg_time_model.
 
 class AverageTimeCard extends StatelessWidget {
   final AverageTime averageTime;
-  const AverageTimeCard({Key? key, required this.averageTime})
-    : super(key: key);
+  const AverageTimeCard({super.key, required this.averageTime});
 
   @override
   Widget build(BuildContext context) {

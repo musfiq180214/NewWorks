@@ -6,7 +6,7 @@ import 'package:office_management/Features/month_wise_history/provider/monthWise
 import 'package:office_management/constants/Colors.dart';
 
 class MonthWiseHistoryScreen extends ConsumerStatefulWidget {
-  const MonthWiseHistoryScreen({Key? key}) : super(key: key);
+  const MonthWiseHistoryScreen({super.key});
 
   @override
   ConsumerState<MonthWiseHistoryScreen> createState() =>
@@ -351,7 +351,7 @@ class _MonthWiseHistoryScreenState
                               itemBuilder: (_, i) {
                                 final entry = filteredHistories[i];
                                 return Card(
-                                  color: Colors.white.withOpacity(0.2),
+                                  color: Colors.white.withValues(alpha: 0.2),
                                   margin: const EdgeInsets.symmetric(
                                     vertical: 4,
                                   ),
@@ -427,7 +427,7 @@ class _MonthWiseHistoryScreenState
   Widget _buildSummaryCard(String title, String value) {
     return Expanded(
       child: Card(
-        color: Colors.white.withOpacity(0.2),
+        color: Colors.white.withValues(alpha: 0.2),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         child: Padding(
           padding: const EdgeInsets.all(12.0),

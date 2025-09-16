@@ -6,10 +6,10 @@ class AttendanceCard extends StatelessWidget {
   final Attendance attendance;
   final int index;
   const AttendanceCard({
-    Key? key,
+    super.key,
     required this.attendance,
     required this.index,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

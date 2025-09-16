@@ -14,7 +14,7 @@ class AppRoutes {
   static const attendance = '/attendance';
   static const employees = '/employees';
   static const employeeDetail = '/employeeDetail';
-  static const monthWiseHistory = '/monthWiseHistory'; // new route
+  static const monthWiseHistory = '/monthWiseHistory';
 
   static Map<String, WidgetBuilder> get routes => {
     splash: (_) => const SplashScreen(),
@@ -22,7 +22,7 @@ class AppRoutes {
     dashboard: (_) => const DashboardScreen(),
     attendance: (_) => const AttendanceScreen(),
     employees: (_) => const EmployeeListScreen(),
-    monthWiseHistory: (_) => const MonthWiseHistoryScreen(), // new screen
+    monthWiseHistory: (_) => const MonthWiseHistoryScreen(),
   };
 
   // onGenerateRoute for passing arguments

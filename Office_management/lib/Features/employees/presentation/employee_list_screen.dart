@@ -6,7 +6,7 @@ import 'package:office_management/constants/Colors.dart';
 import 'package:office_management/routes/app_routes.dart';
 
 class EmployeeListScreen extends ConsumerStatefulWidget {
-  const EmployeeListScreen({Key? key}) : super(key: key);
+  const EmployeeListScreen({super.key});
 
   @override
   ConsumerState<EmployeeListScreen> createState() => _EmployeeListScreenState();
