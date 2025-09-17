@@ -85,11 +85,11 @@ class MyApp extends StatelessWidget {
 //   }
 
 //   Future<void> fetchData() async {
-//     // final url = Uri.parse('https://fakestoreapi.com/products');
+//     final url = Uri.parse('https://fakestoreapi.com/products');
 
 //     // final url = Uri.parse("http://internal-api.misfit.tech/emp/api/v1/list");
 
-//     final url = Uri.parse("http://internal-api.misfit.tech/emp/api/v1/average");
+//     // final url = Uri.parse("http://internal-api.misfit.tech/emp/api/v1/average");
 
 //     try {
 //       final response = await http.get(url);
