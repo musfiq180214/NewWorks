@@ -18,7 +18,7 @@ class AppRouter {
       case RouteNames.suggestArea:
         return MaterialPageRoute(builder: (_) => const SuggestAreaPage());
       case RouteNames.landing2:
-        return MaterialPageRoute(builder: (_) => const LandingPage2());
+        return MaterialPageRoute(builder: (_) => LandingPage2());
       case RouteNames.landing:
         return MaterialPageRoute(
             builder: (_) => Landing()); // your original Landing

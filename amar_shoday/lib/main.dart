@@ -12,9 +12,9 @@ void main() async {
 
   runApp(
     EasyLocalization(
-      supportedLocales: const [Locale('en'), Locale('bn')],
+      supportedLocales: const [Locale('en', 'US'), Locale('bn', 'BD')],
       path: 'assets/lang',
-      fallbackLocale: const Locale('en'),
+      fallbackLocale: const Locale('en', 'US'),
       child: const ProviderScope(child: MyApp()),
     ),
   );
