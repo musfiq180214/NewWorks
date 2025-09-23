@@ -26,8 +26,18 @@ class _LandingPage2State extends State<LandingPage2> {
     "Local Onion",
     "Milk Powder"
   ];
-  final grocery = const ["Rice", "Oil", "Milk", "Bread", "Eggs"];
-  final topSales = const ["Top 1", "Top 2", "Top 3", "Top 4", "Top 5", "Top 6"];
+  final grocery = const [
+    "Chola Boot",
+    "Rice",
+    "Haleem Mix",
+    "Maggie",
+  ];
+  final topSales = const [
+    "Aarong Milk",
+    "Maggie Noodles",
+    "Radhuni Chilli",
+    "Local Onion",
+  ];
 
   final PageController _promoController = PageController();
   final PageController _adController = PageController();
@@ -40,14 +50,17 @@ class _LandingPage2State extends State<LandingPage2> {
   @override
   void initState() {
     super.initState();
-    _startAutoScroll(_promoController, 3, (timer) => _promoTimer = timer);
+    // promo has 4 pages (Promotion1 + 3 promo cards) -> pageCount 4
+    _startAutoScroll(_promoController, 4, (timer) => _promoTimer = timer);
     _startAdAutoScroll();
     _adController.addListener(() {
-      int newPage = _adController.page!.round();
-      if (newPage != _adPage) {
-        setState(() {
-          _adPage = newPage;
-        });
+      if (_adController.hasClients && _adController.page != null) {
+        int newPage = _adController.page!.round();
+        if (newPage != _adPage) {
+          setState(() {
+            _adPage = newPage;
+          });
+        }
       }
     });
   }
@@ -106,6 +119,20 @@ class _LandingPage2State extends State<LandingPage2> {
     "Local Onion": "assets/local_onion.png",
   };
 
+  final Map<String, String> groceryImages = const {
+    "Chola Boot": "assets/chola_boot.png",
+    "Rice": "assets/rice.png",
+    "Haleem Mix": "assets/radhuni_halim_mix.png",
+    "Maggie": "assets/maggie.png",
+  };
+
+  final Map<String, String> topSaleImages = const {
+    "Aarong Milk": "assets/aarong_milk.png",
+    "Maggie Noodles": "assets/maggie.png",
+    "Radhuni Chilli": "assets/radhuni_chilli.png",
+    "Local Onion": "assets/local_onion.png",
+  };
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -141,7 +168,7 @@ class _LandingPage2State extends State<LandingPage2> {
                         }
                       },
                       icon: const Icon(Icons.language, color: Colors.white),
-                    ),
+                    )
                   ],
                 ),
               ),
@@ -308,8 +335,14 @@ class _LandingPage2State extends State<LandingPage2> {
             _sectionWithHorizontalItems(
                 "recommended_products".tr(), recommended,
                 itemImages: recommendedImages, bordered: true),
-            _sectionWithHorizontalItems("grocery_items".tr(), grocery,
-                bordered: true),
+
+            // 📦 Grocery Items Section
+            _sectionWithHorizontalItems(
+              "grocery_items".tr(),
+              grocery,
+              itemImages: groceryImages,
+              bordered: true,
+            ),
 
             const SizedBox(height: 12),
 
@@ -346,7 +379,65 @@ class _LandingPage2State extends State<LandingPage2> {
               ],
             ),
 
-            _sectionWithHorizontalItems("top_sales".tr(), topSales),
+            // 🔥 Top Sales (horizontal row that slides left; same circle bg as Categories)
+            _buildSectionTitle("top_sales".tr()),
+            Container(
+              color: Colors.white,
+              height: 140, // a bit more so text fits under the avatar
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                itemCount: topSales.length,
+                separatorBuilder: (_, __) => const SizedBox(width: 12),
+                itemBuilder: (context, index) {
+                  final name = topSales[index];
+                  final imgPath = topSaleImages[name];
+
+                  return SizedBox(
+                    width: 100,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        // Circle avatar aligned in one row
+                        CircleAvatar(
+                          radius: 32,
+                          backgroundColor: Colors.orange.shade300,
+                          child: ClipOval(
+                            child: imgPath != null
+                                ? Image.asset(
+                                    imgPath,
+                                    width: 64,
+                                    height: 64,
+                                    fit: BoxFit.cover,
+                                  )
+                                : Center(
+                                    child: Text(
+                                      name[0],
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        // Always places text below avatar, no shifting
+                        Flexible(
+                          child: Text(
+                            name,
+                            textAlign: TextAlign.center,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+
             const SizedBox(height: 30),
           ],
         ),
@@ -388,8 +479,6 @@ class _LandingPage2State extends State<LandingPage2> {
         children: [
           Image.asset("assets/empty.png", width: 55, height: 55),
           const SizedBox(height: 6),
-          // const Text("Empty",
-          //     style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold))
         ],
       ),
     );
@@ -455,7 +544,7 @@ class _LandingPage2State extends State<LandingPage2> {
                 child: imgPath != null
                     ? Image.asset(
                         imgPath,
-                        width: 64, // diameter = radius * 2
+                        width: 64,
                         height: 64,
                         fit: BoxFit.cover,
                       )
@@ -522,7 +611,7 @@ class _LandingPage2State extends State<LandingPage2> {
       children: [
         _buildSectionTitle(title),
         Container(
-          color: Colors.white, // plain white background
+          color: Colors.white,
           height: 120,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
