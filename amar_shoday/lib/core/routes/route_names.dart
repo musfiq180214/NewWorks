@@ -6,4 +6,5 @@ class RouteNames {
   static const String landing = '/landing'; // (existing original landing)
   static const String noInternet = '/no-internet';
   static const String githubRepos = '/github-repos';
+  static const String searchResults = '/search-results';
 }

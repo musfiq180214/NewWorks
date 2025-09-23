@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:amar_shoday/core/routes/route_names.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -11,6 +12,7 @@ class LandingPage2 extends StatefulWidget {
 
 class _LandingPage2State extends State<LandingPage2> {
   int _navIndex = 0;
+  final TextEditingController _searchController = TextEditingController();
 
   final categories = const [
     "Groceries",
@@ -133,6 +135,17 @@ class _LandingPage2State extends State<LandingPage2> {
     "Local Onion": "assets/local_onion.png",
   };
 
+  void _navigateToSearchResults() {
+    String query = _searchController.text.trim();
+    if (query.isNotEmpty) {
+      Navigator.pushNamed(
+        context,
+        RouteNames.searchResults,
+        arguments: {'query': query},
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -222,53 +235,57 @@ class _LandingPage2State extends State<LandingPage2> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
                 child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.black12,
-                        blurRadius: 4,
-                        offset: Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: Row(
-                    children: [
-                      const SizedBox(width: 12),
-                      const Icon(Icons.search, color: Colors.grey),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: TextField(
-                          decoration: InputDecoration(
-                            hintText: 'Search_by_product_brand'.tr(),
-                            border: InputBorder.none,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 4,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      children: [
+                        const SizedBox(width: 12),
+                        const Icon(Icons.search, color: Colors.grey),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: TextField(
+                            controller: _searchController,
+                            decoration: InputDecoration(
+                              hintText: 'Search_by_product_brand'.tr(),
+                              border: InputBorder.none,
+                            ),
+                            onSubmitted: (_) => _navigateToSearchResults(),
                           ),
                         ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 12, vertical: 8),
-                        margin: const EdgeInsets.only(right: 8),
-                        decoration: BoxDecoration(
-                          color: Colors.green,
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Icon(Icons.search, color: Colors.white),
-                            const SizedBox(width: 4),
-                            Text(
-                              'search'.tr(),
-                              style: const TextStyle(color: Colors.white),
+                        GestureDetector(
+                          onTap: _navigateToSearchResults,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 8),
+                            margin: const EdgeInsets.only(right: 8),
+                            decoration: BoxDecoration(
+                              color: Colors.green,
+                              borderRadius: BorderRadius.circular(6),
                             ),
-                          ],
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(Icons.search, color: Colors.white),
+                                const SizedBox(width: 4),
+                                Text(
+                                  'search'.tr(),
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
+                      ],
+                    )),
               ),
             ),
 

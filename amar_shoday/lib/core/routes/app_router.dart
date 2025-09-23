@@ -2,6 +2,7 @@ import 'package:amar_shoday/features/home/landing_page_2.dart';
 import 'package:amar_shoday/features/onboarding/language_page.dart';
 import 'package:amar_shoday/features/onboarding/splash_page.dart';
 import 'package:amar_shoday/features/onboarding/suggest_area_page.dart';
+import 'package:amar_shoday/features/search_results/search_results_page.dart';
 import 'package:flutter/material.dart';
 import 'package:amar_shoday/core/routes/route_names.dart';
 
@@ -22,6 +23,13 @@ class AppRouter {
       case RouteNames.landing:
         return MaterialPageRoute(
             builder: (_) => const Landing()); // your original Landing
+      case RouteNames.searchResults:
+        final args = settings.arguments as Map<String, dynamic>?;
+        final query = args?['query'] as String? ?? '';
+        return MaterialPageRoute(
+          builder: (_) => SearchResultsPage(searchQuery: query),
+        );
+
       // case RouteNames.noInternet:
       //   return MaterialPageRoute(builder: (_) => NoInternetPage());
       default:
