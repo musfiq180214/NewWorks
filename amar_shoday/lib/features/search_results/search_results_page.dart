@@ -98,7 +98,7 @@ class SearchResultsPage extends StatelessWidget {
                       children: [
                         IconButton(
                           icon:
-                              const Icon(Icons.arrow_back, color: Colors.white),
+                              const Icon(Icons.arrow_back, color: Colors.grey),
                           onPressed: () => Navigator.pop(context),
                         ),
                         Text("Search Result",

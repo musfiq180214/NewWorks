@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:amar_shoday/core/routes/route_names.dart';
+// import 'package:amar_shoday/core/routes/route_names.dart';
 import 'package:amar_shoday/features/search_results/search_results_page.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -165,11 +165,15 @@ class _LandingPage2State extends State<LandingPage2> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Row(
+                    Row(
                       children: [
-                        Icon(Icons.location_on, color: Colors.white, size: 18),
-                        SizedBox(width: 4),
-                        Text("Bosila, Dhaka",
+                        Image.asset(
+                          "assets/location_icon.png",
+                          width: 20,
+                          height: 20,
+                        ),
+                        const SizedBox(width: 4),
+                        const Text("Bosila, Dhaka",
                             style:
                                 TextStyle(color: Colors.white, fontSize: 14)),
                       ],
@@ -190,7 +194,7 @@ class _LandingPage2State extends State<LandingPage2> {
               Stack(
                 children: [
                   Container(
-                    height: 80,
+                    height: 120,
                     decoration: BoxDecoration(
                       color: Colors.indigo.shade900,
                       borderRadius: const BorderRadius.vertical(
@@ -209,13 +213,24 @@ class _LandingPage2State extends State<LandingPage2> {
                               color: Colors.white, fontSize: 14),
                         ),
                         Container(
+                          width: 40,
+                          height: 40,
                           decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                             color: Colors.white,
                           ),
-                          padding: const EdgeInsets.all(9),
-                          child: const Icon(Icons.notifications,
-                              color: Colors.green),
+                          // padding: const EdgeInsets.all(2),
+                          child: IconButton(
+                            icon: Image.asset(
+                              'assets/bell_icon.png',
+                              width: 40,
+                              height: 40,
+                            ),
+                            onPressed: () {},
+                            iconSize: 15,
+                            padding: EdgeInsets.zero,
+                            constraints: const BoxConstraints(),
+                          ),
                         ),
                       ],
                     ),
@@ -230,6 +245,7 @@ class _LandingPage2State extends State<LandingPage2> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // const SizedBox(height: 5),
             // 🔍 Search bar
             Container(
               color: Colors.indigo.shade900,
@@ -543,7 +559,7 @@ class _LandingPage2State extends State<LandingPage2> {
   Widget _buildCategories() {
     return GridView.builder(
       shrinkWrap: true,
-      padding: const EdgeInsets.symmetric(horizontal: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 8),
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
@@ -557,14 +573,14 @@ class _LandingPage2State extends State<LandingPage2> {
         return Column(
           children: [
             CircleAvatar(
-              radius: 32,
+              radius: 35,
               backgroundColor: Colors.blue.shade100,
               child: ClipOval(
                 child: imgPath != null
                     ? Image.asset(
                         imgPath,
-                        width: 64,
-                        height: 64,
+                        width: 70,
+                        height: 70,
                         fit: BoxFit.cover,
                       )
                     : Center(
@@ -631,7 +647,7 @@ class _LandingPage2State extends State<LandingPage2> {
         _buildSectionTitle(title),
         Container(
           color: Colors.white,
-          height: 120,
+          height: 140, // increased height to accommodate bigger images
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -651,16 +667,22 @@ class _LandingPage2State extends State<LandingPage2> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     if (imgPath != null)
-                      Image.asset(imgPath,
-                          width: 36, height: 36, fit: BoxFit.contain)
+                      Image.asset(
+                        imgPath,
+                        width: 60, // increased from 36
+                        height: 60, // increased from 36
+                        fit: BoxFit.contain,
+                      )
                     else
                       Text(item.toString().substring(0, 1),
                           style: const TextStyle(fontSize: 16)),
-                    const SizedBox(height: 6),
-                    Text(item.toString(),
-                        textAlign: TextAlign.center,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis),
+                    const SizedBox(height: 8),
+                    Text(
+                      item.toString(),
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ],
                 ),
               );
