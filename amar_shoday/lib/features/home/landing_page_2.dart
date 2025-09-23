@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:amar_shoday/core/routes/route_names.dart';
+import 'package:amar_shoday/features/search_results/search_results_page.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -138,10 +139,11 @@ class _LandingPage2State extends State<LandingPage2> {
   void _navigateToSearchResults() {
     String query = _searchController.text.trim();
     if (query.isNotEmpty) {
-      Navigator.pushNamed(
+      Navigator.push(
         context,
-        RouteNames.searchResults,
-        arguments: {'query': query},
+        MaterialPageRoute(
+          builder: (_) => SearchResultsPage(searchQuery: query),
+        ),
       );
     }
   }
@@ -167,7 +169,7 @@ class _LandingPage2State extends State<LandingPage2> {
                       children: [
                         Icon(Icons.location_on, color: Colors.white, size: 18),
                         SizedBox(width: 4),
-                        Text("Dhaka, Bangladesh",
+                        Text("Bosila, Dhaka",
                             style:
                                 TextStyle(color: Colors.white, fontSize: 14)),
                       ],
