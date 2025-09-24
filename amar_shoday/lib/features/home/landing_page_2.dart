@@ -10,12 +10,15 @@ class LandingPage2 extends StatefulWidget {
   State<LandingPage2> createState() => _LandingPage2State();
 }
 
-class _LandingPage2State extends State<LandingPage2> {
+class _LandingPage2State extends State<LandingPage2>
+    with SingleTickerProviderStateMixin {
   int _navIndex = 0;
   final TextEditingController _searchController = TextEditingController();
 
-  // initial floating cart position
-  Offset cartPosition = const Offset(290, 450);
+  // Floating cart
+  Offset cartPosition = const Offset(300, 425);
+  late final AnimationController _cartAnimationController;
+  late Animation<Offset> _cartAnimation;
 
   final categories = const [
     "Groceries",
@@ -44,6 +47,35 @@ class _LandingPage2State extends State<LandingPage2> {
     "Local Onion",
   ];
 
+  final Map<String, String> categoryImages = const {
+    "Groceries": "assets/groceries.png",
+    "Meat": "assets/meat.png",
+    "Vegetable": "assets/veg.png",
+    "Dairy": "assets/dairy.png",
+    "Cosmetics": "assets/cosmetics.png",
+    "Medicine": "assets/medicine.png",
+  };
+
+  final Map<String, String> recommendedImages = const {
+    "Soyabin Oil": "assets/soyabin_oil.png",
+    "Rice": "assets/rice.png",
+    "Local Onion": "assets/local_onion.png",
+  };
+
+  final Map<String, String> groceryImages = const {
+    "Chola Boot": "assets/chola_boot.png",
+    "Rice": "assets/rice.png",
+    "Haleem Mix": "assets/radhuni_halim_mix.png",
+    "Maggie": "assets/maggie.png",
+  };
+
+  final Map<String, String> topSaleImages = const {
+    "Aarong Milk": "assets/aarong_milk.png",
+    "Maggie Noodles": "assets/maggie.png",
+    "Radhuni Chilli": "assets/radhuni_chilli.png",
+    "Local Onion": "assets/local_onion.png",
+  };
+
   final PageController _promoController = PageController();
   final PageController _adController = PageController();
   Timer? _promoTimer;
@@ -55,17 +87,25 @@ class _LandingPage2State extends State<LandingPage2> {
   @override
   void initState() {
     super.initState();
+
     _startAutoScroll(_promoController, 4, (timer) => _promoTimer = timer);
     _startAdAutoScroll();
     _adController.addListener(() {
       if (_adController.hasClients && _adController.page != null) {
         int newPage = _adController.page!.round();
-        if (newPage != _adPage) {
-          setState(() {
-            _adPage = newPage;
-          });
-        }
+        if (newPage != _adPage) setState(() => _adPage = newPage);
       }
+    });
+
+    _cartAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
+    );
+
+    _cartAnimationController.addListener(() {
+      setState(() {
+        cartPosition = _cartAnimation.value;
+      });
     });
   }
 
@@ -105,37 +145,9 @@ class _LandingPage2State extends State<LandingPage2> {
     _adTimer?.cancel();
     _promoController.dispose();
     _adController.dispose();
+    _cartAnimationController.dispose();
     super.dispose();
   }
-
-  final Map<String, String> categoryImages = const {
-    "Groceries": "assets/groceries.png",
-    "Meat": "assets/meat.png",
-    "Vegetable": "assets/veg.png",
-    "Dairy": "assets/dairy.png",
-    "Cosmetics": "assets/cosmetics.png",
-    "Medicine": "assets/medicine.png",
-  };
-
-  final Map<String, String> recommendedImages = const {
-    "Soyabin Oil": "assets/soyabin_oil.png",
-    "Rice": "assets/rice.png",
-    "Local Onion": "assets/local_onion.png",
-  };
-
-  final Map<String, String> groceryImages = const {
-    "Chola Boot": "assets/chola_boot.png",
-    "Rice": "assets/rice.png",
-    "Haleem Mix": "assets/radhuni_halim_mix.png",
-    "Maggie": "assets/maggie.png",
-  };
-
-  final Map<String, String> topSaleImages = const {
-    "Aarong Milk": "assets/aarong_milk.png",
-    "Maggie Noodles": "assets/maggie.png",
-    "Radhuni Chilli": "assets/radhuni_chilli.png",
-    "Local Onion": "assets/local_onion.png",
-  };
 
   void _navigateToSearchResults() {
     String query = _searchController.text.trim();
@@ -151,6 +163,8 @@ class _LandingPage2State extends State<LandingPage2> {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+
     return Stack(
       children: [
         Scaffold(
@@ -170,11 +184,8 @@ class _LandingPage2State extends State<LandingPage2> {
                       children: [
                         Row(
                           children: [
-                            Image.asset(
-                              "assets/location_icon.png",
-                              width: 20,
-                              height: 20,
-                            ),
+                            Image.asset("assets/location_icon.png",
+                                width: 20, height: 20),
                             const SizedBox(width: 4),
                             const Text("Bosila, Dhaka",
                                 style: TextStyle(
@@ -223,11 +234,8 @@ class _LandingPage2State extends State<LandingPage2> {
                                 color: Colors.white,
                               ),
                               child: IconButton(
-                                icon: Image.asset(
-                                  'assets/bell_icon.png',
-                                  width: 40,
-                                  height: 40,
-                                ),
+                                icon: Image.asset('assets/bell_icon.png',
+                                    width: 40, height: 40),
                                 onPressed: () {},
                                 iconSize: 15,
                                 padding: EdgeInsets.zero,
@@ -277,9 +285,19 @@ class _LandingPage2State extends State<LandingPage2> {
             feedback: _floatingCart(),
             childWhenDragging: const SizedBox.shrink(),
             onDragEnd: (details) {
-              setState(() {
-                cartPosition = details.offset;
-              });
+              double dx = details.offset.dx.clamp(0.0, screenSize.width - 60);
+              double dy = details.offset.dy.clamp(
+                  0.0, screenSize.height - 60 - kBottomNavigationBarHeight);
+
+              _cartAnimation = Tween<Offset>(
+                begin: cartPosition,
+                end: Offset(dx, dy),
+              ).animate(CurvedAnimation(
+                parent: _cartAnimationController,
+                curve: Curves.elasticOut,
+              ));
+
+              _cartAnimationController.forward(from: 0);
             },
             child: _floatingCart(),
           ),
@@ -297,8 +315,8 @@ class _LandingPage2State extends State<LandingPage2> {
       },
       child: Image.asset(
         "assets/empty.png",
-        width: 60, // control image width
-        height: 60, // control image height
+        width: 60,
+        height: 60,
         fit: BoxFit.contain,
       ),
     );
