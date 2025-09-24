@@ -101,7 +101,7 @@ class SearchResultsPage extends StatelessWidget {
                               const Icon(Icons.arrow_back, color: Colors.grey),
                           onPressed: () => Navigator.pop(context),
                         ),
-                        Text("Search Result",
+                        Text('search_result'.tr(),
                             style: TextStyle(
                                 color: Colors.indigo.shade900,
                                 fontSize: 16,
