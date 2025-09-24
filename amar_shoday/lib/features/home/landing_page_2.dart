@@ -1,5 +1,4 @@
 import 'dart:async';
-// import 'package:amar_shoday/core/routes/route_names.dart';
 import 'package:amar_shoday/features/search_results/search_results_page.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -14,6 +13,9 @@ class LandingPage2 extends StatefulWidget {
 class _LandingPage2State extends State<LandingPage2> {
   int _navIndex = 0;
   final TextEditingController _searchController = TextEditingController();
+
+  // initial floating cart position
+  Offset cartPosition = const Offset(290, 450);
 
   final categories = const [
     "Groceries",
@@ -53,7 +55,6 @@ class _LandingPage2State extends State<LandingPage2> {
   @override
   void initState() {
     super.initState();
-    // promo has 4 pages (Promotion1 + 3 promo cards) -> pageCount 4
     _startAutoScroll(_promoController, 4, (timer) => _promoTimer = timer);
     _startAdAutoScroll();
     _adController.addListener(() {
@@ -150,371 +151,241 @@ class _LandingPage2State extends State<LandingPage2> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[100],
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(110),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(height: 25),
-              Container(
-                color: Colors.indigo.shade900,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Image.asset(
-                          "assets/location_icon.png",
-                          width: 20,
-                          height: 20,
-                        ),
-                        const SizedBox(width: 4),
-                        const Text("Bosila, Dhaka",
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 14)),
-                      ],
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        if (context.locale.languageCode == 'en') {
-                          context.setLocale(const Locale('bn', 'BD'));
-                        } else {
-                          context.setLocale(const Locale('en', 'US'));
-                        }
-                      },
-                      icon: const Icon(Icons.language, color: Colors.white),
-                    )
-                  ],
-                ),
-              ),
-              Stack(
+    return Stack(
+      children: [
+        Scaffold(
+          backgroundColor: Colors.grey[100],
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(110),
+            child: SingleChildScrollView(
+              child: Column(
                 children: [
+                  const SizedBox(height: 25),
                   Container(
-                    height: 120,
-                    decoration: BoxDecoration(
-                      color: Colors.indigo.shade900,
-                      borderRadius: const BorderRadius.vertical(
-                          bottom: Radius.circular(24)),
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 10),
+                    color: Colors.indigo.shade900,
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          "${'hello'.tr()}\n${'welcome_to_amar_shoday'.tr()}",
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 14),
+                        Row(
+                          children: [
+                            Image.asset(
+                              "assets/location_icon.png",
+                              width: 20,
+                              height: 20,
+                            ),
+                            const SizedBox(width: 4),
+                            const Text("Bosila, Dhaka",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 14)),
+                          ],
                         ),
-                        Container(
-                          width: 40,
-                          height: 40,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.white,
-                          ),
-                          // padding: const EdgeInsets.all(2),
-                          child: IconButton(
-                            icon: Image.asset(
-                              'assets/bell_icon.png',
+                        IconButton(
+                          onPressed: () {
+                            if (context.locale.languageCode == 'en') {
+                              context.setLocale(const Locale('bn', 'BD'));
+                            } else {
+                              context.setLocale(const Locale('en', 'US'));
+                            }
+                          },
+                          icon: const Icon(Icons.language, color: Colors.white),
+                        )
+                      ],
+                    ),
+                  ),
+                  Stack(
+                    children: [
+                      Container(
+                        height: 120,
+                        decoration: BoxDecoration(
+                          color: Colors.indigo.shade900,
+                          borderRadius: const BorderRadius.vertical(
+                              bottom: Radius.circular(24)),
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "${'hello'.tr()}\n${'welcome_to_amar_shoday'.tr()}",
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 14),
+                            ),
+                            Container(
                               width: 40,
                               height: 40,
-                            ),
-                            onPressed: () {},
-                            iconSize: 15,
-                            padding: EdgeInsets.zero,
-                            constraints: const BoxConstraints(),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // const SizedBox(height: 5),
-            // 🔍 Search bar
-            Container(
-              color: Colors.indigo.shade900,
-              padding: const EdgeInsets.symmetric(vertical: 12),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Colors.black12,
-                          blurRadius: 4,
-                          offset: Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      children: [
-                        const SizedBox(width: 12),
-                        const Icon(Icons.search, color: Colors.grey),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: TextField(
-                            controller: _searchController,
-                            decoration: InputDecoration(
-                              hintText: 'Search_by_product_brand'.tr(),
-                              border: InputBorder.none,
-                            ),
-                            onSubmitted: (_) => _navigateToSearchResults(),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: _navigateToSearchResults,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 8),
-                            margin: const EdgeInsets.only(right: 8),
-                            decoration: BoxDecoration(
-                              color: Colors.green,
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Icon(Icons.search, color: Colors.white),
-                                const SizedBox(width: 4),
-                                Text(
-                                  'search'.tr(),
-                                  style: const TextStyle(color: Colors.white),
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.white,
+                              ),
+                              child: IconButton(
+                                icon: Image.asset(
+                                  'assets/bell_icon.png',
+                                  width: 40,
+                                  height: 40,
                                 ),
-                              ],
+                                onPressed: () {},
+                                iconSize: 15,
+                                padding: EdgeInsets.zero,
+                                constraints: const BoxConstraints(),
+                              ),
                             ),
-                          ),
+                          ],
                         ),
-                      ],
-                    )),
-              ),
-            ),
-
-            // 🔹 Promotion Section
-            Stack(
-              children: [
-                Container(
-                  height: 90,
-                  decoration: BoxDecoration(
-                    color: Colors.indigo.shade900,
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(24),
-                      bottomRight: Radius.circular(24),
-                    ),
-                  ),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildSectionTitle(
-                      "promotion".tr(),
-                      textColor: Colors.white,
-                      fontSize: 20,
-                    ),
-                    SizedBox(
-                      height: 160,
-                      child: PageView(
-                        controller: _promoController,
-                        children: [
-                          const Image(
-                              image: AssetImage("assets/Promotion1.png")),
-                          _promoCard(
-                              "GET YOUR\n GROCERIES\n DELIVERED\n IN MINUTES"),
-                          _promoCard(
-                              "Discount up to 50% on\n Fresh Vegetables"),
-                          _promoCard("Shop Now & Get\n Free Delivery"),
-                        ],
                       ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 16),
-
-            // 📦 Categories
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("categories".tr(),
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 18)),
-                  _cartIcon(), // now on the right
-                ],
-              ),
-            ),
-            _buildCategories(),
-
-            const SizedBox(height: 16),
-
-            _sectionWithHorizontalItems(
-                "recommended_products".tr(), recommended,
-                itemImages: recommendedImages, bordered: true),
-
-            // 📦 Grocery Items Section
-            _sectionWithHorizontalItems(
-              "grocery_items".tr(),
-              grocery,
-              itemImages: groceryImages,
-              bordered: true,
-            ),
-
-            const SizedBox(height: 12),
-
-            Column(
-              children: [
-                SizedBox(
-                  height: 120,
-                  child: PageView(
-                    controller: _adController,
-                    children: [
-                      const Image(image: AssetImage("assets/super_sale.png")),
-                      _adBanner("Ad Banner 2"),
-                      _adBanner("Ad Banner 3"),
                     ],
                   ),
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(_adCount, (index) {
-                    bool isActive = index == _adPage;
-                    return AnimatedContainer(
-                      duration: const Duration(milliseconds: 300),
-                      margin: const EdgeInsets.symmetric(horizontal: 4),
-                      width: isActive ? 16 : 10,
-                      height: 10,
-                      decoration: BoxDecoration(
-                        color: isActive ? Colors.blue : Colors.grey,
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                    );
-                  }),
-                ),
-              ],
-            ),
-
-            // 🔥 Top Sales (horizontal row that slides left; same circle bg as Categories)
-            _buildSectionTitle("top_sales".tr()),
-            Container(
-              color: Colors.white,
-              height: 140, // a bit more so text fits under the avatar
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                itemCount: topSales.length,
-                separatorBuilder: (_, __) => const SizedBox(width: 12),
-                itemBuilder: (context, index) {
-                  final name = topSales[index];
-                  final imgPath = topSaleImages[name];
-
-                  return SizedBox(
-                    width: 100,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        // Circle avatar aligned in one row
-                        CircleAvatar(
-                          radius: 32,
-                          backgroundColor: Colors.orange.shade300,
-                          child: ClipOval(
-                            child: imgPath != null
-                                ? Image.asset(
-                                    imgPath,
-                                    width: 64,
-                                    height: 64,
-                                    fit: BoxFit.cover,
-                                  )
-                                : Center(
-                                    child: Text(
-                                      name[0],
-                                      style: const TextStyle(
-                                        fontSize: 18,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                          ),
-                        ),
-                        const SizedBox(height: 6),
-                        // Always places text below avatar, no shifting
-                        Flexible(
-                          child: Text(
-                            name,
-                            textAlign: TextAlign.center,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
+                ],
               ),
             ),
+          ),
+          body: _buildBody(),
+          bottomNavigationBar: ClipRRect(
+            borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(24), topRight: Radius.circular(24)),
+            child: BottomNavigationBar(
+              backgroundColor: Colors.indigo.shade900,
+              currentIndex: _navIndex,
+              onTap: (i) => setState(() => _navIndex = i),
+              type: BottomNavigationBarType.fixed,
+              selectedItemColor: Colors.green,
+              unselectedItemColor: Colors.white,
+              items: [
+                BottomNavigationBarItem(
+                    icon: const Icon(Icons.home), label: "home".tr()),
+                BottomNavigationBarItem(
+                    icon: const Icon(Icons.category), label: "categories".tr()),
+                BottomNavigationBarItem(
+                    icon: const Icon(Icons.favorite_border),
+                    label: "favourite".tr()),
+                BottomNavigationBarItem(
+                    icon: const Icon(Icons.more_horiz), label: "more".tr()),
+              ],
+            ),
+          ),
+        ),
 
-            const SizedBox(height: 30),
-          ],
+        // 🛒 Floating draggable cart
+        Positioned(
+          left: cartPosition.dx,
+          top: cartPosition.dy,
+          child: Draggable(
+            feedback: _floatingCart(),
+            childWhenDragging: const SizedBox.shrink(),
+            onDragEnd: (details) {
+              setState(() {
+                cartPosition = details.offset;
+              });
+            },
+            child: _floatingCart(),
+          ),
         ),
-      ),
-      bottomNavigationBar: ClipRRect(
-        borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(24), topRight: Radius.circular(24)),
-        child: BottomNavigationBar(
-          backgroundColor: Colors.indigo.shade900,
-          currentIndex: _navIndex,
-          onTap: (i) => setState(() => _navIndex = i),
-          type: BottomNavigationBarType.fixed,
-          selectedItemColor: Colors.green,
-          unselectedItemColor: Colors.white,
-          items: [
-            BottomNavigationBarItem(
-                icon: const Icon(Icons.home), label: "home".tr()),
-            BottomNavigationBarItem(
-                icon: const Icon(Icons.category), label: "categories".tr()),
-            BottomNavigationBarItem(
-                icon: const Icon(Icons.favorite_border),
-                label: "favourite".tr()),
-            BottomNavigationBarItem(
-                icon: const Icon(Icons.more_horiz), label: "more".tr()),
-          ],
-        ),
+      ],
+    );
+  }
+
+  Widget _floatingCart() {
+    return GestureDetector(
+      onTap: () {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Cart tapped!")),
+        );
+      },
+      child: Image.asset(
+        "assets/empty.png",
+        width: 60, // control image width
+        height: 60, // control image height
+        fit: BoxFit.contain,
       ),
     );
   }
 
-  Widget _cartIcon() {
-    return Container(
-      width: 55,
-      height: 78,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12), color: Colors.transparent),
+  Widget _buildBody() {
+    return SingleChildScrollView(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.asset("assets/empty.png", width: 55, height: 55),
-          const SizedBox(height: 6),
+          _buildSearchBar(),
+          _buildPromotion(),
+          const SizedBox(height: 16),
+          _buildCategoriesSection(),
+          const SizedBox(height: 16),
+          _sectionWithHorizontalItems("recommended_products".tr(), recommended,
+              itemImages: recommendedImages, bordered: true),
+          _sectionWithHorizontalItems("grocery_items".tr(), grocery,
+              itemImages: groceryImages, bordered: true),
+          const SizedBox(height: 12),
+          _buildAds(),
+          _buildSectionTitle("top_sales".tr()),
+          _buildTopSales(),
+          const SizedBox(height: 30),
         ],
+      ),
+    );
+  }
+
+  Widget _buildSearchBar() {
+    return Container(
+      color: Colors.indigo.shade900,
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+        child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8),
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black12,
+                  blurRadius: 4,
+                  offset: Offset(0, 2),
+                ),
+              ],
+            ),
+            child: Row(
+              children: [
+                const SizedBox(width: 12),
+                const Icon(Icons.search, color: Colors.grey),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: TextField(
+                    controller: _searchController,
+                    decoration: InputDecoration(
+                      hintText: 'Search_by_product_brand'.tr(),
+                      border: InputBorder.none,
+                    ),
+                    onSubmitted: (_) => _navigateToSearchResults(),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: _navigateToSearchResults,
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    margin: const EdgeInsets.only(right: 8),
+                    decoration: BoxDecoration(
+                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(Icons.search, color: Colors.white),
+                        const SizedBox(width: 4),
+                        Text(
+                          'search'.tr(),
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            )),
       ),
     );
   }
@@ -552,6 +423,154 @@ class _LandingPage2State extends State<LandingPage2> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildPromotion() {
+    return Stack(
+      children: [
+        Container(
+          height: 90,
+          decoration: BoxDecoration(
+            color: Colors.indigo.shade900,
+            borderRadius: const BorderRadius.only(
+              bottomLeft: Radius.circular(24),
+              bottomRight: Radius.circular(24),
+            ),
+          ),
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildSectionTitle(
+              "promotion".tr(),
+              textColor: Colors.white,
+              fontSize: 20,
+            ),
+            SizedBox(
+              height: 160,
+              child: PageView(
+                controller: _promoController,
+                children: [
+                  const Image(image: AssetImage("assets/Promotion1.png")),
+                  _promoCard("GET YOUR\n GROCERIES\n DELIVERED\n IN MINUTES"),
+                  _promoCard("Discount up to 50% on\n Fresh Vegetables"),
+                  _promoCard("Shop Now & Get\n Free Delivery"),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildCategoriesSection() {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text("categories".tr(),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 18)),
+            ],
+          ),
+        ),
+        _buildCategories(),
+      ],
+    );
+  }
+
+  Widget _buildAds() {
+    return Column(
+      children: [
+        SizedBox(
+          height: 120,
+          child: PageView(
+            controller: _adController,
+            children: [
+              const Image(image: AssetImage("assets/super_sale.png")),
+              _adBanner("Ad Banner 2"),
+              _adBanner("Ad Banner 3"),
+            ],
+          ),
+        ),
+        const SizedBox(height: 8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: List.generate(_adCount, (index) {
+            bool isActive = index == _adPage;
+            return AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              margin: const EdgeInsets.symmetric(horizontal: 4),
+              width: isActive ? 16 : 10,
+              height: 10,
+              decoration: BoxDecoration(
+                color: isActive ? Colors.blue : Colors.grey,
+                borderRadius: BorderRadius.circular(5),
+              ),
+            );
+          }),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTopSales() {
+    return Container(
+      color: Colors.white,
+      height: 140,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        itemCount: topSales.length,
+        separatorBuilder: (_, __) => const SizedBox(width: 12),
+        itemBuilder: (context, index) {
+          final name = topSales[index];
+          final imgPath = topSaleImages[name];
+          return SizedBox(
+            width: 100,
+            child: Column(
+              children: [
+                CircleAvatar(
+                  radius: 32,
+                  backgroundColor: Colors.orange.shade300,
+                  child: ClipOval(
+                    child: imgPath != null
+                        ? Image.asset(
+                            imgPath,
+                            width: 64,
+                            height: 64,
+                            fit: BoxFit.cover,
+                          )
+                        : Center(
+                            child: Text(
+                              name[0],
+                              style: const TextStyle(
+                                fontSize: 18,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Flexible(
+                  child: Text(
+                    name,
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }
